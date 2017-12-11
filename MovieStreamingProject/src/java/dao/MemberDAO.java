@@ -119,8 +119,23 @@ public class MemberDAO {
         ResultSet resultSet = sqlStatement.executeQuery();
         return resultSet.next();
     }
+    public boolean isAdmin(String userName,String password) throws SQLException{
+        String sqlQuery = "select idMember from Admin where Admin.idMember in "
+                +"(select idMember from member where member.userName = ? and member.password = ?)";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, userName);
+        sqlStatement.setString(2, password);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        return resultSet.next();
+    }
+    public void adAmin(int memberID) throws SQLException{
+        String sqlQuery = "insert into admin (idMember) values (?)";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, Integer.toString(memberID));
+        sqlStatement.execute();
+    }
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException{
 //        MemberDAO test = new MemberDAO();
-//        System.out.println(test.isInFavorite(1, 1));
+//        test.adAmin(2);
 //    }
 }
