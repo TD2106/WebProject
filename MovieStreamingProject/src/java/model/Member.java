@@ -12,18 +12,22 @@ package model;
 public class Member {
     private int memberID;
     private String userName;
-    private String email;
     private String password;
+    private String email;
     private String profilePictureLink;
 
-    public Member(int memberID, String userName, String email, String password, String profilePictureLink) {
+    public Member() {
+    }
+
+    public Member(int memberID, String userName, String password, String email, String profilePictureLink) {
         this.memberID = memberID;
         this.userName = userName;
-        this.email = email;
         this.password = password;
+        this.email = email;
         this.profilePictureLink = profilePictureLink;
     }
 
+    
     public int getMemberID() {
         return memberID;
     }
