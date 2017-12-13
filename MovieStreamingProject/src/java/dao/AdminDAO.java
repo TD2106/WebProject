@@ -7,7 +7,6 @@ package dao;
 
 import db.DBConnection;
 import java.sql.*;
-import model.*;
 /**
  *
  * @author Duy Le

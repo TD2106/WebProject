@@ -40,6 +40,7 @@ public class Movie {
         this.year = year;
         this.length = length;
         this.categoryID = categoryID;
+        this.averageRating = -1;
     }
 
     public Movie(int movieID, String movieName, String movieDescription, String posterLink, String trailerLink, String country, String year, String length, int categoryID, double averageRating) {

@@ -119,6 +119,7 @@ public class MemberDAO {
         ResultSet resultSet = sqlStatement.executeQuery();
         return resultSet.next();
     }
+    
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException{
 //        MemberDAO test = new MemberDAO();
 //        test.deleteMember(1);
