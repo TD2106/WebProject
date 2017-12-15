@@ -12,26 +12,12 @@ package model;
 public class Log {
     private int logID;
     private String time;
-    private int memberID;
-    public Log() {
-    }
 
-    public Log(int logID, String time, int memberID) {
+    public Log(int logID, String time) {
         this.logID = logID;
         this.time = time;
-        this.memberID = memberID;
     }
-
-    public int getMemberID() {
-        return memberID;
-    }
-
-    public void setMemberID(int memberID) {
-        this.memberID = memberID;
-    }
-
     
-
     public int getLogID() {
         return logID;
     }

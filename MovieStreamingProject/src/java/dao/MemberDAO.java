@@ -101,14 +101,14 @@ public class MemberDAO {
         String sqlQuery = "update member set password = ? where idMember = ? ; " ;      
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setString(1, password);
-        sqlStatement.setString(2,Integer.toString(memberID));
+        sqlStatement.setInt(2,memberID);
         sqlStatement.execute();
     }
     public void updateProfilePictureLink(String profilePictureLink,int memberID) throws SQLException{
         String sqlQuery = "update member set profilePictureLink = ? where idMember = ? ; " ;      
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setString(1, profilePictureLink);
-        sqlStatement.setString(2,Integer.toString(memberID));
+        sqlStatement.setInt(2,memberID);
         sqlStatement.execute();
     }
     public boolean isInFavorite(int memberID,int movieID) throws SQLException{
@@ -120,8 +120,23 @@ public class MemberDAO {
         return resultSet.next();
     }
     
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException{
-//        MemberDAO test = new MemberDAO();
-//        test.deleteMember(1);
-//    }
+    public void addMovieToFavorite(int memberID,int movieID) throws SQLException{
+        String sqlQuery = "insert into favorite (idmember,idmovie) values(?,?)" ;
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, memberID);
+        sqlStatement.setInt(2, movieID);
+        sqlStatement.execute();
+    }
+    
+    public void updateEmail(String email,int memberID) throws SQLException{
+        String sqlQuery = "update member set email = ? where idMember = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, email);
+        sqlStatement.setInt(2,memberID);
+        sqlStatement.execute();
+    }
+    public static void main(String[] args) throws SQLException, ClassNotFoundException{
+        MemberDAO test = new MemberDAO();
+        test.addMember("TD2106", "lutden", "thanhduy2106@gmail.com");
+    }
 }

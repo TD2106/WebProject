@@ -11,17 +11,26 @@ package model;
  */
 public class Link {
     private int linkID;
+    private String movieLink;
     private String serverName;
     private int movieID;
 
-    public Link() {
-    }
-
-    public Link(int linkID, String serverName, int movieID) {
+    public Link(int linkID, String movieLink, String serverName, int movieID) {
         this.linkID = linkID;
+        this.movieLink = movieLink;
         this.serverName = serverName;
         this.movieID = movieID;
     }
+
+    public String getMovieLink() {
+        return movieLink;
+    }
+
+    public void setMovieLink(String movieLink) {
+        this.movieLink = movieLink;
+    }
+
+    
 
     public int getLinkID() {
         return linkID;

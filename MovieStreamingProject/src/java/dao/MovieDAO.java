@@ -45,8 +45,8 @@ public class MovieDAO {
         return resultMovie;
     }
     public ArrayList<Movie> getAllMovie()throws SQLException{
-        ArrayList<Movie> allMovie = new ArrayList<>();
-        String sqlQuery = "select * from movie";
+        ArrayList<Movie> allMovie = null;
+        String sqlQuery = "select idmovie from movie";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         ResultSet resultSet = sqlStatement.executeQuery();
         while(resultSet.next()){
@@ -68,9 +68,122 @@ public class MovieDAO {
         sqlStatement.setInt(8,categoryID);
         sqlStatement.execute();
     }
+    public ArrayList<Movie> getAllFavoriteMovieOfAMemberByID (int memberID) throws SQLException{
+        String sqlQuery = "select idmovie from movie where movie.idmovie in (select idmovie from favorite where favorite.idmember = ?)";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, memberID);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        ArrayList<Movie> result = new ArrayList<>();
+        while(resultSet.next()){
+            result.add(this.getMovieByID(resultSet.getInt("idMovie")));
+        }
+        return result;
+    }
+    public void deleteMovieByID(int movieID)throws SQLException{
+        String sqlQuery = "delete from movie where movie.idmovie = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, movieID);
+        sqlStatement.execute();
+    }
     
-//    public static void main(String[] args) throws Exception{
-//        MovieDAO test = new MovieDAO();
-//        test.addMovie("123 ", "123 ", "posterLink", "trailerLink", "country", "year", "length", 1);
-//    }
+    public void updateMovieName(String movieName,int movieID) throws SQLException{
+        String sqlQuery = "update movie set moviename = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, movieName);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    
+    public void updateMovieDescription(String movieDescription,int movieID) throws SQLException{
+        String sqlQuery = "update movie set movieDescription = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, movieDescription);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    public void updateMoviePosterLink(String moviePosterLink,int movieID) throws SQLException{
+        String sqlQuery = "update movie set moviePosterLink = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, moviePosterLink);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    
+    public void updateMovieTrailerLink(String movieTrailerLink,int movieID) throws SQLException{
+        String sqlQuery = "update movie set movieTrailerLink = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, movieTrailerLink);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    public void updateCountry(String country,int movieID) throws SQLException{
+        String sqlQuery = "update movie set country = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, country);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    public void updateYear(String year,int movieID) throws SQLException{
+        String sqlQuery = "update movie set year = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1,year);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    public void updateLength(String length,int movieID) throws SQLException{
+        String sqlQuery = "update movie set length = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1,length);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    public void updateCategoryID(int categoryID,int movieID) throws SQLException{
+        String sqlQuery = "update movie set idcategory = ? where idmovie = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1,categoryID);
+        sqlStatement.setInt(2,movieID);
+        sqlStatement.execute();
+    }
+    
+    public ArrayList<Movie> getMovieByCategory(int categoryID) throws SQLException{
+        String sqlQuery = "select idmovie from movie where idcategory = ?" ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, categoryID);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        ArrayList<Movie> result = new ArrayList<>();
+        while(resultSet.next()){
+            result.add(this.getMovieByID(resultSet.getInt("idmovie")));
+        }
+        return result;
+    }
+    public ArrayList<Movie> getMovieByKeyword(String keyword) throws SQLException{
+        keyword = keyword.toUpperCase();
+        String sqlQuery = "select idmovie from movie where upper(moviename) like ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1,"%"+ keyword +"%");
+        ArrayList<Movie> result = new ArrayList<>();
+        ResultSet resultSet = sqlStatement.executeQuery();
+        while(resultSet.next()){
+            result.add(this.getMovieByID(resultSet.getInt("idmovie")));
+        }
+        return result;
+    }
+    
+    public ArrayList<Movie> getMovieByKeywordAndCategory(String keyword,int categoryID) throws SQLException{
+        keyword = keyword.toUpperCase();
+        String sqlQuery = "select idmovie from movie where upper(moviename) like ? and idcategory = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1,"%"+ keyword +"%");
+        sqlStatement.setInt(2, categoryID);
+        ArrayList<Movie> result = new ArrayList<>();
+        ResultSet resultSet = sqlStatement.executeQuery();
+        while(resultSet.next()){
+            result.add(this.getMovieByID(resultSet.getInt("idmovie")));
+        }
+        return result;
+    }
+    public static void main(String[] args) throws Exception{
+        MovieDAO test = new MovieDAO();
+        test.addMovie("Inception", "Dream Stuff", "Imgur", "Youtube", "USA", "2010", "2h", 1);
+    }
 }
