@@ -135,8 +135,8 @@ public class MemberDAO {
         sqlStatement.setInt(2,memberID);
         sqlStatement.execute();
     }
-    public static void main(String[] args) throws SQLException, ClassNotFoundException{
-        MemberDAO test = new MemberDAO();
-        test.addMember("TD2106", "lutden", "thanhduy2106@gmail.com");
-    }
+//    public static void main(String[] args) throws SQLException, ClassNotFoundException{
+//        MemberDAO test = new MemberDAO();
+//        test.addMember("TD2106", "lutden", "thanhduy2106@gmail.com");
+//    }
 }

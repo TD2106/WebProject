@@ -46,7 +46,7 @@ public class MovieDAO {
     }
     public ArrayList<Movie> getAllMovie()throws SQLException{
         ArrayList<Movie> allMovie = null;
-        String sqlQuery = "select idmovie from movie";
+        String sqlQuery = "select idmovie from movie order by idmovie desc";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         ResultSet resultSet = sqlStatement.executeQuery();
         while(resultSet.next()){
@@ -182,8 +182,35 @@ public class MovieDAO {
         }
         return result;
     }
+    public ArrayList<Movie> getMovieByKeywordAndDescription(String keyword) throws SQLException{
+        keyword = keyword.toUpperCase();
+        String sqlQuery = "select idmovie from movie where upper(moviename) like ? or upper(moviedescription) like ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1,"%"+ keyword +"%");
+        sqlStatement.setString(2,"%"+ keyword +"%");
+        ArrayList<Movie> result = new ArrayList<>();
+        ResultSet resultSet = sqlStatement.executeQuery();
+        while(resultSet.next()){
+            result.add(this.getMovieByID(resultSet.getInt("idmovie")));
+        }
+        return result;
+    }
+    public ArrayList<Movie> getMovieByKeywordAndDescriptionAndCategory(String keyword, int categoryID) throws SQLException{
+        keyword = keyword.toUpperCase();
+        String sqlQuery = "select idmovie from movie where upper(moviename) like ? or upper(moviedescription) like ? and idcategory = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1,"%"+ keyword +"%");
+        sqlStatement.setString(2,"%"+ keyword +"%");
+        sqlStatement.setInt(3, categoryID);
+        ArrayList<Movie> result = new ArrayList<>();
+        ResultSet resultSet = sqlStatement.executeQuery();
+        while(resultSet.next()){
+            result.add(this.getMovieByID(resultSet.getInt("idmovie")));
+        }
+        return result;
+    }
     public static void main(String[] args) throws Exception{
         MovieDAO test = new MovieDAO();
-        test.addMovie("Inception", "Dream Stuff", "Imgur", "Youtube", "USA", "2010", "2h", 1);
+        test.getMovieByKeywordAndDescriptionAndCategory("in",3);
     }
 }

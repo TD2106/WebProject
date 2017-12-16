@@ -41,7 +41,7 @@ public class CategoryDAO {
         sqlStatement.execute();
     }
     
-    public static void main(String[] args) throws SQLException,ClassNotFoundException{
-        CategoryDAO test = new CategoryDAO();
-    }
+//    public static void main(String[] args) throws SQLException,ClassNotFoundException{
+//        CategoryDAO test = new CategoryDAO();
+//    }
 }

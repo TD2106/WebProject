@@ -15,7 +15,7 @@ import model.*;
 import java.util.*;
 
 public class LogDAO {
-    private Connection dbConnection;
+    private final Connection dbConnection;
     public LogDAO() throws SQLException, ClassNotFoundException{
         dbConnection = DBConnection.getConnection();
     }
@@ -69,7 +69,7 @@ public class LogDAO {
         sqlStatement.setInt(1, logID);
         sqlStatement.execute();
     }
-    public static void main (String[] args) throws SQLException, ClassNotFoundException{
-        LogDAO test = new LogDAO();
-    }
+//    public static void main (String[] args) throws SQLException, ClassNotFoundException{
+//        LogDAO test = new LogDAO();
+//    }
 }
