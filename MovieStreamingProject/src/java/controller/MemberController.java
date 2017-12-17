@@ -46,8 +46,6 @@ public class MemberController extends HttpServlet {
             case "login":{
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
-                this.removeBlankSpace(username);
-                this.removeBlankSpace(password);
                 password = AES.encrypt(password, "bestmoviesite");
                 if(memberDAO.isLoginInformationCorrect(username, password)){
                     Member member = memberDAO.getMemberByUserName(username);
@@ -74,10 +72,7 @@ public class MemberController extends HttpServlet {
                     String email = (String) request.getParameter("email");
                     String password = (String) request.getParameter("password");
                     String profilePictureLink = (String) request.getParameter("profilePictureLink");
-                    this.removeBlankSpace(username);
-                    this.removeBlankSpace(email);
-                    this.removeBlankSpace(password);
-                    this.removeBlankSpace(profilePictureLink);
+
                     password = AES.encrypt(password, "bestmoviesite");
                     if(memberDAO.isMemberWithEmailExist(email)||memberDAO.isMemberWithUserNameExist(username)){
                         response.sendRedirect("register.jsp?result=exists");
@@ -110,9 +105,7 @@ public class MemberController extends HttpServlet {
                 String password = request.getParameter("password");
                 String profilePictureLink = request.getParameter("profilePictureLink");
                 String email = request.getParameter("email");
-                this.removeBlankSpace(email);
-                this.removeBlankSpace(password);
-                this.removeBlankSpace(profilePictureLink);
+
                 if(memberDAO.isMemberWithEmailExist(email)&&!email.equals(member.getEmail())){
                     response.sendRedirect("editInfo.jsp?result=emailexist");
                     return;
@@ -130,9 +123,9 @@ public class MemberController extends HttpServlet {
             }
         }
     }
-    public void removeBlankSpace(String inputData){
-        inputData = inputData.replaceAll("\\s+","");
-    }
+//    public void removeBlankSpace(String inputData){
+//        inputData = inputData.replaceAll("\\s+","");
+//    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
