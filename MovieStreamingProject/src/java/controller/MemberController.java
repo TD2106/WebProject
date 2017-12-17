@@ -68,10 +68,10 @@ public class MemberController extends HttpServlet {
                     return;
                 }
                 else{
-                    String username = (String) request.getAttribute("username");
-                    String email = (String) request.getAttribute("email");
-                    String password = (String) request.getAttribute("password");
-                    String profilePictureLink = (String) request.getAttribute("profilePictureLink");
+                    String username = (String) request.getParameter("username");
+                    String email = (String) request.getParameter("email");
+                    String password = (String) request.getParameter("password");
+                    String profilePictureLink = (String) request.getParameter("profilePictureLink");
                     password = AES.encrypt(password, "bestmoviesite");
                     if(memberDAO.isMemberWithEmailExist(email)||memberDAO.isMemberWithUserNameExist(username)){
                         response.sendRedirect("register.jsp?result=exists");
@@ -80,7 +80,9 @@ public class MemberController extends HttpServlet {
                     else{
                         if(profilePictureLink == null) memberDAO.addMember(username, password, email);
                         else memberDAO.addMember(username, password, email, profilePictureLink);
-                        response.sendRedirect("register.jsp?result=success");
+                        Member member = memberDAO.getMemberByUserName(username);
+                        session.setAttribute("member", member);
+                        response.sendRedirect("index.jsp");
                         return;
                     }
                 }
@@ -93,17 +95,47 @@ public class MemberController extends HttpServlet {
             }
             case "editprofilepicture":{
                 if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
-                    response.sendRedirect("unauthorisedaccess.jsp");
+                    response.sendRedirect("notMember.jsp");
                     return;
                 }
+                Member member;
+                if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
+                else member = (Admin) session.getAttribute("admin");
+                String link = request.getParameter("profilePictureLink");
+                memberDAO.updateProfilePictureLink(link, member.getMemberID());
+                response.sendRedirect("member.jsp?id="+member.getMemberID());
                 return;
             }
             case "editemail":{
-                
-                return;
+                if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
+                    response.sendRedirect("notMember.jsp");
+                    return;
+                }
+                Member member;
+                if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
+                else member = (Admin) session.getAttribute("admin");
+                String email = request.getParameter("email");
+                if(memberDAO.isMemberWithEmailExist(email)){
+                    response.sendRedirect("editInfo.jsp?result=emailexist");
+                    return;
+                }
+                else{
+                    memberDAO.updateEmail(email, member.getMemberID());
+                    response.sendRedirect("member.jsp?id="+member.getMemberID());
+                    return;
+                }
             }
             case "editpassword":{
-                
+                if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
+                    response.sendRedirect("notMember.jsp");
+                    return;
+                }
+                Member member;
+                if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
+                else member = (Admin) session.getAttribute("admin");
+                String password = request.getParameter("password");
+                password = AES.encrypt(password, "bestmoviesite");
+                memberDAO.updateUserPassword(password, member.getMemberID());
                 return;
             }
         }
