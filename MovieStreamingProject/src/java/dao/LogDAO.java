@@ -47,6 +47,18 @@ public class LogDAO {
         }
         return result;
     }
+    public ArrayList<AdminLog> getAllAdminLog() throws SQLException{
+        String sqlQuery = "select * from "
+                + "(select l.idlog,l.logtime,a.idmember,a.actiontaken" +
+                 "from log as l join adminlog as a on l.idLog = a.idLog ;";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        ResultSet resultSet  = sqlStatement.executeQuery();
+        ArrayList<AdminLog> result = new ArrayList<>();
+        while(resultSet.next()){
+            result.add(new AdminLog(resultSet.getString("actiontaken"),resultSet.getInt("idmember"),resultSet.getInt("idlog"),resultSet.getString("logtime")));
+        }
+        return result;
+    }
     public void addWatchLog(int memberID,int movieID) throws SQLException{
         String sqlQuery = "insert into log (logtime) values(now());";
         Statement statement = dbConnection.createStatement();

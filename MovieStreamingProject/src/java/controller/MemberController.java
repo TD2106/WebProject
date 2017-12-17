@@ -46,6 +46,8 @@ public class MemberController extends HttpServlet {
             case "login":{
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
+                this.removeBlankSpace(username);
+                this.removeBlankSpace(password);
                 password = AES.encrypt(password, "bestmoviesite");
                 if(memberDAO.isLoginInformationCorrect(username, password)){
                     Member member = memberDAO.getMemberByUserName(username);
@@ -72,6 +74,10 @@ public class MemberController extends HttpServlet {
                     String email = (String) request.getParameter("email");
                     String password = (String) request.getParameter("password");
                     String profilePictureLink = (String) request.getParameter("profilePictureLink");
+                    this.removeBlankSpace(username);
+                    this.removeBlankSpace(email);
+                    this.removeBlankSpace(password);
+                    this.removeBlankSpace(profilePictureLink);
                     password = AES.encrypt(password, "bestmoviesite");
                     if(memberDAO.isMemberWithEmailExist(email)||memberDAO.isMemberWithUserNameExist(username)){
                         response.sendRedirect("register.jsp?result=exists");
@@ -93,39 +99,7 @@ public class MemberController extends HttpServlet {
                 response.sendRedirect("index.jsp");
                 return;
             }
-            case "editprofilepicture":{
-                if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
-                    response.sendRedirect("notMember.jsp");
-                    return;
-                }
-                Member member;
-                if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
-                else member = (Admin) session.getAttribute("admin");
-                String link = request.getParameter("profilePictureLink");
-                memberDAO.updateProfilePictureLink(link, member.getMemberID());
-                response.sendRedirect("member.jsp?id="+member.getMemberID());
-                return;
-            }
-            case "editemail":{
-                if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
-                    response.sendRedirect("notMember.jsp");
-                    return;
-                }
-                Member member;
-                if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
-                else member = (Admin) session.getAttribute("admin");
-                String email = request.getParameter("email");
-                if(memberDAO.isMemberWithEmailExist(email)){
-                    response.sendRedirect("editInfo.jsp?result=emailexist");
-                    return;
-                }
-                else{
-                    memberDAO.updateEmail(email, member.getMemberID());
-                    response.sendRedirect("member.jsp?id="+member.getMemberID());
-                    return;
-                }
-            }
-            case "editpassword":{
+            case "editprofile":{
                 if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
                     response.sendRedirect("notMember.jsp");
                     return;
@@ -134,13 +108,31 @@ public class MemberController extends HttpServlet {
                 if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
                 else member = (Admin) session.getAttribute("admin");
                 String password = request.getParameter("password");
-                password = AES.encrypt(password, "bestmoviesite");
+                String profilePictureLink = request.getParameter("profilePictureLink");
+                String email = request.getParameter("email");
+                this.removeBlankSpace(email);
+                this.removeBlankSpace(password);
+                this.removeBlankSpace(profilePictureLink);
+                if(memberDAO.isMemberWithEmailExist(email)&&!email.equals(member.getEmail())){
+                    response.sendRedirect("editInfo.jsp?result=emailexist");
+                    return;
+                }
+                memberDAO.updateEmail(email, member.getMemberID());
+                memberDAO.updateProfilePictureLink(profilePictureLink, member.getMemberID());
                 memberDAO.updateUserPassword(password, member.getMemberID());
+                response.sendRedirect("member.jsp?id="+member.getMemberID());
+                return;
+            }
+            
+            default:{
+                response.sendRedirect("index.jsp");
                 return;
             }
         }
     }
-
+    public void removeBlankSpace(String inputData){
+        inputData = inputData.replaceAll("\\s+","");
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
