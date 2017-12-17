@@ -44,9 +44,8 @@ public class LinkDAO {
         sqlStatement.setInt(1, linkID);
         sqlStatement.execute();
     }
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException{
-//        LinkDAO test = new LinkDAO();
-//        test.addLink("123","googledrive", 3);
-//        test.deleteLink(1);
-//    }
+    public static void main(String[] args) throws SQLException, ClassNotFoundException{
+        LinkDAO test = new LinkDAO();
+        test.getLinkByMovieID(1);
+    }
 }

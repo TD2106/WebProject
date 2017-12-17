@@ -41,7 +41,19 @@ public class CategoryDAO {
         sqlStatement.execute();
     }
     
+    public Category getCategoryByID(int categoryID) throws SQLException{
+        String sqlQuery = "select * from category where idcategory = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, categoryID);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        Category category = null;
+        while(resultSet.next()){
+            category = new Category(resultSet.getInt("idcategory"),resultSet.getString("categoryname"));
+        }
+        return category;
+    }
 //    public static void main(String[] args) throws SQLException,ClassNotFoundException{
 //        CategoryDAO test = new CategoryDAO();
+//        test.getCategoryByID(1);
 //    }
 }

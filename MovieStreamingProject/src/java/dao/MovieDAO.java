@@ -45,7 +45,7 @@ public class MovieDAO {
         return resultMovie;
     }
     public ArrayList<Movie> getAllMovie()throws SQLException{
-        ArrayList<Movie> allMovie = null;
+        ArrayList<Movie> allMovie = new ArrayList<Movie>();
         String sqlQuery = "select idmovie from movie order by idmovie desc";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         ResultSet resultSet = sqlStatement.executeQuery();
@@ -209,8 +209,23 @@ public class MovieDAO {
         }
         return result;
     }
-    public static void main(String[] args) throws Exception{
-        MovieDAO test = new MovieDAO();
-        test.getMovieByKeywordAndDescriptionAndCategory("in",3);
+    public void addToFavorite(int memberID,int movieID) throws SQLException{
+        String sqlQuery = "insert into favorite (idmember,idmovie) values(?,?)" ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1,memberID);
+        sqlStatement.setInt(2, movieID);
+        sqlStatement.execute();
     }
+    public void deleteFromFavorite(int memberID,int movieID) throws SQLException{
+        String sqlQuery = "delete from favorite where idmember = ? and idmovie = ?" ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1,memberID);
+        sqlStatement.setInt(2, movieID);
+        sqlStatement.execute();
+    }
+
+//    public static void main(String[] args) throws Exception{
+//        MovieDAO test = new MovieDAO();
+//        test.deleteFromFavorite(1, 1);
+//    }
 }
