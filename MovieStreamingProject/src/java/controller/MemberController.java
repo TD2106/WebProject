@@ -92,7 +92,10 @@ public class MemberController extends HttpServlet {
                 return;
             }
             case "editprofilepicture":{
-                
+                if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
+                    response.sendRedirect("unauthorisedaccess.jsp");
+                    return;
+                }
                 return;
             }
             case "editemail":{
@@ -103,8 +106,6 @@ public class MemberController extends HttpServlet {
                 
                 return;
             }
-            
-            
         }
     }
 

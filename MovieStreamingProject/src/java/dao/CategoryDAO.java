@@ -52,8 +52,9 @@ public class CategoryDAO {
         }
         return category;
     }
-//    public static void main(String[] args) throws SQLException,ClassNotFoundException{
-//        CategoryDAO test = new CategoryDAO();
-//        test.getCategoryByID(1);
-//    }
+    public static void main(String[] args) throws SQLException,ClassNotFoundException{
+        CategoryDAO test = new CategoryDAO();
+        Category t = test.getCategoryByID(0);
+        if(t == null) System.out.println(123);
+    }
 }

@@ -48,19 +48,24 @@ public class LogDAO {
         return result;
     }
     public void addWatchLog(int memberID,int movieID) throws SQLException{
-        String sqlQuery = "insert into log (logtime) values(now())"
-                + "insert into watchlog (idlog,idmember,idmovie) values (last_insert_id(),?,?)";
+        String sqlQuery = "insert into log (logtime) values(now());";
+        Statement statement = dbConnection.createStatement();
+        statement.execute(sqlQuery);
+        sqlQuery = "insert into watchlog (idlog,idmember,idmovie) values (last_insert_id(),?,?);";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setInt(1, memberID);
         sqlStatement.setInt(2, movieID);
         sqlStatement.execute();
     }
     public void addAdminLog(int memberID,String actionTaken) throws SQLException{
-        String sqlQuery = "insert into log (logtime) values(now())"
-                + "insert into adminlog (idlog,idmember,actiontaken) values (last_insert_id(),?,?)";
+        String sqlQuery = "insert into log (logtime) values(now());";
+        Statement statement = dbConnection.createStatement();
+        statement.execute(sqlQuery);
+        sqlQuery="insert into adminlog (idlog,idmember,actiontaken) values (last_insert_id(),?,?);";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setInt(1, memberID);
         sqlStatement.setString(2, actionTaken);
+        System.out.println(123);
         sqlStatement.execute();
     }
     public void deleteWatchLog(int logID) throws SQLException{
@@ -69,7 +74,8 @@ public class LogDAO {
         sqlStatement.setInt(1, logID);
         sqlStatement.execute();
     }
-//    public static void main (String[] args) throws SQLException, ClassNotFoundException{
-//        LogDAO test = new LogDAO();
-//    }
+    public static void main (String[] args) throws SQLException, ClassNotFoundException{
+        LogDAO test = new LogDAO();
+        test.addWatchLog(1, 2);
+    }
 }

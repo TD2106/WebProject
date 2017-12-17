@@ -224,8 +224,8 @@ public class MovieDAO {
         sqlStatement.execute();
     }
 
-//    public static void main(String[] args) throws Exception{
-//        MovieDAO test = new MovieDAO();
-//        test.deleteFromFavorite(1, 1);
-//    }
+    public static void main(String[] args) throws Exception{
+        MovieDAO test = new MovieDAO();
+        test.addMovie("Inception", "Dream stuff", "Imgur", "Youtube", "USA", "2010", "2h10p", 1);
+    }
 }
