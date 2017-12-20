@@ -5,13 +5,21 @@
  */
 package controller;
 
+import dao.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
+import model.*;
+import security.AES;
 /**
  *
  * @author Duy Le
@@ -28,19 +36,43 @@ public class CategoryController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet CategoryController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet CategoryController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        CategoryDAO categoryDAO = new CategoryDAO();
+        LogDAO logDAO = new LogDAO();
+        AdminDAO adminDAO = new AdminDAO();
+        Member member;
+        HttpSession session = request.getSession();
+        if (session.getAttribute("admin") == null) {
+            response.sendRedirect("notMember.jsp");
+            return;
+        }
+        member = (Member) session.getAttribute("admin");
+        if (!adminDAO.isAdmin(member.getMemberID())) {
+            response.sendRedirect("notMember.jsp");
+            return;
+        }
+        String action = request.getParameter("action");
+        switch(action){
+            case "add":{
+                String categoryName = request.getParameter("categoryName");
+                categoryDAO.addCategory(categoryName);
+                logDAO.addAdminLog(member.getMemberID(), "Add category "+categoryName);
+                response.sendRedirect("");
+                return;
+            }
+            case "delete":{
+                String categoryIDString = request.getParameter("categoryID");
+                int categoryID = Integer.parseInt(categoryIDString);
+                if(categoryDAO.isCategoryHasMovie(categoryID)){
+                    response.sendRedirect("failed");
+                    return;
+                }
+                categoryDAO.deleteCategory(categoryID);
+                logDAO.addAdminLog(member.getMemberID(), "Delete category with id "+categoryID);
+                response.sendRedirect("");
+                return;
+            }
         }
     }
 
@@ -56,7 +88,13 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(LinkController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LinkController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,7 +108,13 @@ public class CategoryController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(LinkController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LinkController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
