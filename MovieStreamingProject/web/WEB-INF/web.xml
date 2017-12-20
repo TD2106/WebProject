@@ -24,6 +24,10 @@
         <servlet-name>LinkController</servlet-name>
         <servlet-class>controller.LinkController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CategoryController</servlet-name>
+        <servlet-class>controller.CategoryController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>LinkController</servlet-name>
         <url-pattern>/LinkController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CategoryController</servlet-name>
+        <url-pattern>/CategoryController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

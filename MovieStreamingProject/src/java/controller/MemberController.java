@@ -41,6 +41,7 @@ public class MemberController extends HttpServlet {
         String action = request.getParameter("action");
         MemberDAO memberDAO = new MemberDAO();
         AdminDAO adminDAO = new AdminDAO();
+        LogDAO logDAO = new LogDAO();
         HttpSession session = request.getSession();
         switch (action) {
             case "login": {
@@ -131,7 +132,28 @@ public class MemberController extends HttpServlet {
                 response.sendRedirect("member.jsp?id=" + member.getMemberID());
                 return;
             }
-
+            case "delete":{
+                if (session.getAttribute("member") == null && session.getAttribute("admin") == null) {
+                    response.sendRedirect("notMember.jsp");
+                    return;
+                }
+                Member member;
+                if (session.getAttribute("member") != null) {
+                    member = (Member) session.getAttribute("member");
+                } else {
+                    member = (Member) session.getAttribute("admin");
+                }
+                if(!adminDAO.isAdmin(member.getMemberID())){
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+                String memberIDString = request.getParameter("memberID");
+                int memberID = Integer.parseInt(memberIDString);
+                memberDAO.deleteMember(memberID);
+                logDAO.addAdminLog(member.getMemberID(), "Delete member with id "+memberID);
+                response.sendRedirect("");
+                return;
+            }
             default: {
                 response.sendRedirect("index.jsp");
                 return;
