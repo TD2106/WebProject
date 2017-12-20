@@ -20,6 +20,10 @@
         <servlet-name>MovieController</servlet-name>
         <servlet-class>controller.MovieController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LinkController</servlet-name>
+        <servlet-class>controller.LinkController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>MovieController</servlet-name>
         <url-pattern>/MovieController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LinkController</servlet-name>
+        <url-pattern>/LinkController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

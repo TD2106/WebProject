@@ -142,6 +142,10 @@ public class MovieController extends HttpServlet {
                 response.sendRedirect("");
                 return;
             }
+            default:{
+                response.sendRedirect("index.jsp");
+                return;
+            }
         }
     }
 
