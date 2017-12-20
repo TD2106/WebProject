@@ -71,8 +71,8 @@ public class MovieController extends HttpServlet {
             case "watch": {
                 ArrayList<Link> movieLinks = linkDAO.getLinkByMovieID(movieID);
                 session.setAttribute("listOfLinks" + movieID, movieLinks);
-                response.sendRedirect("");
                 logDAO.addWatchLog(member.getMemberID(), movieID);
+                response.sendRedirect("");
                 return;
             }
             case "edit": {

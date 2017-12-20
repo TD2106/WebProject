@@ -52,6 +52,13 @@ public class CategoryDAO {
         }
         return category;
     }
+    public boolean isCategoryHasMovie(int categoryID) throws SQLException{
+        String sqlQuery = "select idmovie from movie where idcategory = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, categoryID);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        return resultSet.next();
+    }
 //    public static void main(String[] args) throws SQLException,ClassNotFoundException{
 //        CategoryDAO test = new CategoryDAO();
 //        Category t = test.getCategoryByID(0);
