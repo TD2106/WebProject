@@ -251,8 +251,18 @@ public class MovieDAO {
         sqlStatement.setInt(1, rating);
         sqlStatement.execute();
     }
-    public static void main(String[] args) throws Exception{
-        MovieDAO test = new MovieDAO();
-        System.out.println(test.getRating(1, 1));
+    public int getLastInsertMovieID() throws SQLException{
+        String sqlQuery = "select max(idMovie) from movie";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        int result = 0 ;
+        while(resultSet.next()){
+            result = resultSet.getInt("max(idMovie)");
+        }
+        return result;
     }
+//    public static void main(String[] args) throws Exception{
+//        MovieDAO test = new MovieDAO();
+//        System.out.println(test.lastInsertMovieID());
+//    }
 }

@@ -60,15 +60,15 @@ public class MovieController extends HttpServlet {
             response.sendRedirect("index.jsp");
             return;
         }
-        String movieIDString = request.getParameter("movieID");
-        if (movieIDString == null) {
-            response.sendRedirect("index.jsp");
-            return;
-        }
-        int movieID = Integer.parseInt(movieIDString);
         String action = request.getParameter("action");
         switch (action) {
             case "watch": {
+                String movieIDString = request.getParameter("movieID");
+                if (movieIDString == null) {
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+                int movieID = Integer.parseInt(movieIDString);
                 ArrayList<Link> movieLinks = linkDAO.getLinkByMovieID(movieID);
                 session.setAttribute("listOfLinks" + movieID, movieLinks);
                 logDAO.addWatchLog(member.getMemberID(), movieID);
@@ -76,23 +76,71 @@ public class MovieController extends HttpServlet {
                 return;
             }
             case "edit": {
+                String movieIDString = request.getParameter("movieID");
+                if (movieIDString == null) {
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+                int movieID = Integer.parseInt(movieIDString);
                 if (!adminDAO.isAdmin(member.getMemberID())) {
                     response.sendRedirect("notMember.jsp");
                     return;
                 }
-                
+                String movieName = request.getParameter("movieName");
+                String movieDescription = request.getParameter("movieDescription");
+                String moviePosterLink = request.getParameter("moviePosterLink");
+                String movieTrailerLink = request.getParameter("movieTrailerLink");
+                String country = request.getParameter("country");
+                String year = request.getParameter("year");
+                String length = request.getParameter("length");
+                String categoryIDString = request.getParameter("category");
+                int categoryID = Integer.parseInt(categoryIDString);
+                movieDAO.updateMovieName(movieName, movieID);
+                movieDAO.updateCategoryID(categoryID, movieID);
+                movieDAO.updateCountry(country, movieID);
+                movieDAO.updateLength(length, movieID);
+                movieDAO.updateMovieDescription(movieDescription, movieID);
+                movieDAO.updateMoviePosterLink(moviePosterLink, movieID);
+                movieDAO.updateYear(year, movieID);
+                movieDAO.updateMovieTrailerLink(movieTrailerLink, movieID);
+                logDAO.addAdminLog(member.getMemberID(), "Edit movie with id " + movieID);
+                response.sendRedirect("");
+                return;
             }
             case "delete": {
+                String movieIDString = request.getParameter("movieID");
+                if (movieIDString == null) {
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
+                int movieID = Integer.parseInt(movieIDString);
                 if (!adminDAO.isAdmin(member.getMemberID())) {
                     response.sendRedirect("notMember.jsp");
                     return;
                 }
+                movieDAO.deleteMovieByID(movieID);
+                logDAO.addAdminLog(member.getMemberID(), "Delete movie with id " + movieID);
+                return;
             }
             case "add": {
                 if (!adminDAO.isAdmin(member.getMemberID())) {
                     response.sendRedirect("notMember.jsp");
                     return;
                 }
+                String movieName = request.getParameter("movieName");
+                String movieDescription = request.getParameter("movieDescription");
+                String moviePosterLink = request.getParameter("moviePosterLink");
+                String movieTrailerLink = request.getParameter("movieTrailerLink");
+                String country = request.getParameter("country");
+                String year = request.getParameter("year");
+                String length = request.getParameter("length");
+                String categoryIDString = request.getParameter("category");
+                int categoryID = Integer.parseInt(categoryIDString);
+                movieDAO.addMovie(movieName, movieDescription, moviePosterLink, movieTrailerLink, country, year, length, categoryID);
+                int movieID = movieDAO.getLastInsertMovieID();
+                logDAO.addAdminLog(member.getMemberID(), "Add movie with id "+ movieID);
+                response.sendRedirect("");
+                return;
             }
         }
     }
