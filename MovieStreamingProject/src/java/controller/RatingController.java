@@ -73,6 +73,13 @@ public class RatingController extends HttpServlet {
                 response.sendRedirect("viewMovie?id="+movieID);
                 return;
             }
+            case "update":{
+                int movieID = Integer.parseInt(movieIDString);
+                int rating = Integer.parseInt(ratingString);
+                movieDAO.updateRating(rating, movieID, movieID);
+                response.sendRedirect("viewMovie?id="+movieID);
+                return;
+            }
             default: {
                 response.sendRedirect("index.jsp");
                 return;
