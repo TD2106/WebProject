@@ -42,45 +42,45 @@ public class MemberController extends HttpServlet {
         MemberDAO memberDAO = new MemberDAO();
         AdminDAO adminDAO = new AdminDAO();
         HttpSession session = request.getSession();
-        switch(action){
-            case "login":{
+        switch (action) {
+            case "login": {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 password = AES.encrypt(password, "bestmoviesite");
-                if(memberDAO.isLoginInformationCorrect(username, password)){
+                if (memberDAO.isLoginInformationCorrect(username, password)) {
                     Member member = memberDAO.getMemberByUserName(username);
-                    if(adminDAO.isAdmin(username, password)){
-                        member = (Admin) member;
+                    if (adminDAO.isAdmin(member.getMemberID())) {
                         session.setAttribute("admin", member);
+                    } else {
+                        session.setAttribute("member", member);
                     }
-                    else session.setAttribute("member", member);
                     response.sendRedirect("index.jsp");
                     return;
-                }
-                else{
+                } else {
                     response.sendRedirect("login.jsp?result=invalid");
                     return;
                 }
             }
-            case "register":{
-                if(session.getAttribute("member") != null || session.getAttribute("admin") != null){
+            case "register": {
+                if (session.getAttribute("member") != null || session.getAttribute("admin") != null) {
                     response.sendRedirect("index.jsp");
                     return;
-                }
-                else{
+                } else {
                     String username = (String) request.getParameter("username");
                     String email = (String) request.getParameter("email");
                     String password = (String) request.getParameter("password");
                     String profilePictureLink = (String) request.getParameter("profilePictureLink");
 
                     password = AES.encrypt(password, "bestmoviesite");
-                    if(memberDAO.isMemberWithEmailExist(email)||memberDAO.isMemberWithUserNameExist(username)){
+                    if (memberDAO.isMemberWithEmailExist(email) || memberDAO.isMemberWithUserNameExist(username)) {
                         response.sendRedirect("register.jsp?result=exists");
                         return;
-                    }
-                    else{
-                        if(profilePictureLink == null) memberDAO.addMember(username, password, email);
-                        else memberDAO.addMember(username, password, email, profilePictureLink);
+                    } else {
+                        if (profilePictureLink == null) {
+                            memberDAO.addMember(username, password, email);
+                        } else {
+                            memberDAO.addMember(username, password, email, profilePictureLink);
+                        }
                         Member member = memberDAO.getMemberByUserName(username);
                         session.setAttribute("member", member);
                         response.sendRedirect("index.jsp");
@@ -88,36 +88,51 @@ public class MemberController extends HttpServlet {
                     }
                 }
             }
-            case "logout":{
+            case "logout": {
                 session.removeAttribute("member");
                 session.removeAttribute("admin");
                 response.sendRedirect("index.jsp");
                 return;
             }
-            case "editprofile":{
-                if(session.getAttribute("member") == null && session.getAttribute("admin") == null){
+            case "editprofile": {
+                if (session.getAttribute("member") == null && session.getAttribute("admin") == null) {
                     response.sendRedirect("notMember.jsp");
                     return;
                 }
                 Member member;
-                if(session.getAttribute("member")!=null) member = (Member) session.getAttribute("member");
-                else member = (Admin) session.getAttribute("admin");
+                if (session.getAttribute("member") != null) {
+                    member = (Member) session.getAttribute("member");
+                } else {
+                    member = (Member) session.getAttribute("admin");
+                }
+                if (!memberDAO.isMemberWithUserNameExist(member.getUserName())) {
+                    session.removeAttribute("member");
+                    session.removeAttribute("admin");
+                    response.sendRedirect("index.jsp");
+                    return;
+                }
                 String password = request.getParameter("password");
                 String profilePictureLink = request.getParameter("profilePictureLink");
                 String email = request.getParameter("email");
 
-                if(memberDAO.isMemberWithEmailExist(email)&&!email.equals(member.getEmail())){
+                if (memberDAO.isMemberWithEmailExist(email) && !email.equals(member.getEmail())) {
                     response.sendRedirect("editInfo.jsp?result=emailexist");
                     return;
                 }
                 memberDAO.updateEmail(email, member.getMemberID());
                 memberDAO.updateProfilePictureLink(profilePictureLink, member.getMemberID());
                 memberDAO.updateUserPassword(password, member.getMemberID());
-                response.sendRedirect("member.jsp?id="+member.getMemberID());
+                member = memberDAO.getMemberByID(member.getMemberID());
+                if (session.getAttribute("member") != null) {
+                    session.setAttribute("member", member);
+                } else {
+                    session.setAttribute("admin", member);
+                }
+                response.sendRedirect("member.jsp?id=" + member.getMemberID());
                 return;
             }
-            
-            default:{
+
+            default: {
                 response.sendRedirect("index.jsp");
                 return;
             }
@@ -127,6 +142,7 @@ public class MemberController extends HttpServlet {
 //        inputData = inputData.replaceAll("\\s+","");
 //    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
     /**
      * Handles the HTTP <code>GET</code> method.
      *

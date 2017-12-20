@@ -223,9 +223,36 @@ public class MovieDAO {
         sqlStatement.setInt(2, movieID);
         sqlStatement.execute();
     }
-
+    public void addRating(int rating,int movieID,int memberID) throws SQLException{
+        String sqlQuery = "insert into rating (idmember,idmovie,rating) values (?,?,?)";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, memberID);
+        sqlStatement.setInt(2, movieID);
+        sqlStatement.setInt(3, rating);
+        sqlStatement.execute();
+    }
+    public int getRating (int memberID,int movieID) throws SQLException{
+        String sqlQuery = "select rating from rating where idmember = ? and idmovie = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, memberID);
+        sqlStatement.setInt(2, movieID);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        int result = 0;
+        while(resultSet.next()){
+            result = resultSet.getInt("rating");
+        }
+        return result;
+    }
+    public void updateRating(int rating,int movieID,int memberID) throws SQLException{
+        String sqlQuery = "update rating set rating = ? where idmember = ? and idmovie = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(2, memberID);
+        sqlStatement.setInt(3, movieID);
+        sqlStatement.setInt(1, rating);
+        sqlStatement.execute();
+    }
     public static void main(String[] args) throws Exception{
         MovieDAO test = new MovieDAO();
-        test.addMovie("Inception", "Dream stuff", "Imgur", "Youtube", "USA", "2010", "2h10p", 1);
+        System.out.println(test.getRating(1, 1));
     }
 }

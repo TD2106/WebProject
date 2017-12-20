@@ -8,6 +8,18 @@
         <servlet-name>MemberController</servlet-name>
         <servlet-class>controller.MemberController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FavoriteController</servlet-name>
+        <servlet-class>controller.FavoriteController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RatingController</servlet-name>
+        <servlet-class>controller.RatingController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MovieController</servlet-name>
+        <servlet-class>controller.MovieController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
@@ -15,6 +27,18 @@
     <servlet-mapping>
         <servlet-name>MemberController</servlet-name>
         <url-pattern>/MemberController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FavoriteController</servlet-name>
+        <url-pattern>/FavoriteController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RatingController</servlet-name>
+        <url-pattern>/RatingController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MovieController</servlet-name>
+        <url-pattern>/MovieController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -19,7 +19,7 @@ public class MemberDAO {
     }
     public ArrayList<Member> getAllMember() throws SQLException{
         Statement sqlStatement = dbConnection.createStatement();
-        ResultSet allMember = sqlStatement.executeQuery("select * from member ");
+        ResultSet allMember = sqlStatement.executeQuery("select * from member where idMember not in (select idMember from admin)");
         ArrayList<Member> memberList = new ArrayList<>();
         while(allMember.next()){
             memberList.add(new Member(allMember.getInt("idMember"),allMember.getString("userName"),allMember.getString("password")

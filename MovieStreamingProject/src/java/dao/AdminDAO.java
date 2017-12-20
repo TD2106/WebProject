@@ -37,8 +37,15 @@ public class AdminDAO {
         sqlStatement.setString(1, Integer.toString(memberID));
         sqlStatement.execute();
     }
+    public boolean isAdmin(int memberID) throws SQLException{
+        String sqlQuery = "select idMember from Admin where Admin.idMember = ? ";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, memberID);
+        ResultSet resultSet = sqlStatement.executeQuery();
+        return resultSet.next();
+    }
 //    public static void main(String[] args) throws SQLException, ClassNotFoundException{
 //        AdminDAO test = new AdminDAO();
-//        test.deleteAdminRight(1);
+//        System.out.println(test.isAdmin(1));
 //    }
 }
