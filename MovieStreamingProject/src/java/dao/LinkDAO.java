@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import db.DBConnection;
@@ -33,8 +28,8 @@ public class LinkDAO {
         ResultSet resultSet = sqlStatement.executeQuery();
         ArrayList<Link> result = new ArrayList<>();
         while(resultSet.next()){
-            result.add(new Link(resultSet.getInt("idlink"),resultSet.getString("movielink"),resultSet.getString("servernam"),
-            resultSet.getInt("idmove")));
+            result.add(new Link(resultSet.getInt("idlink"),resultSet.getString("movielink"),resultSet.getString("servername"),
+            resultSet.getInt("idmovie")));
         }
         return result;
     }
@@ -44,8 +39,8 @@ public class LinkDAO {
         sqlStatement.setInt(1, linkID);
         sqlStatement.execute();
     }
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException{
+    public static void main(String[] args) throws SQLException, ClassNotFoundException{
 //        LinkDAO test = new LinkDAO();
-//        test.getLinkByMovieID(1);
-//    }
+//        List<Link> a = test.getLinkByMovieID(2);
+    }
 }

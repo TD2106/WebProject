@@ -8,6 +8,7 @@ package controller;
 import dao.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.System.out;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +40,13 @@ public class RatingController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         MemberDAO memberDAO = new MemberDAO();
         MovieDAO movieDAO = new MovieDAO();
         Member member;
         HttpSession session = request.getSession();
         if (session.getAttribute("member") == null && session.getAttribute("admin") == null) {
-            response.sendRedirect("notMember.jsp");
+            response.sendRedirect("user/notMember.jsp");
             return;
         }
         if (session.getAttribute("member") != null) {
@@ -55,33 +57,37 @@ public class RatingController extends HttpServlet {
         if (!memberDAO.isMemberWithUserNameExist(member.getUserName())) {
             session.removeAttribute("member");
             session.removeAttribute("admin");
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("user/index.jsp");
             return;
         }
         String action = request.getParameter("action");
         String movieIDString = request.getParameter("movieID");
         String ratingString = request.getParameter("rating");
         if(movieIDString == null || ratingString == null){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("user/index.jsp");
             return;
         }
         switch(action){
+            
             case "rate":{
+                
                 int movieID = Integer.parseInt(movieIDString);
                 int rating = Integer.parseInt(ratingString);
+                //int s = member.getMemberID();
                 movieDAO.addRating(rating, movieID, member.getMemberID());
-                response.sendRedirect("viewMovie?id="+movieID);
+                response.sendRedirect("member/viewMovie.jsp?id="+movieID + "&server=Google Drive");
                 return;
             }
             case "update":{
                 int movieID = Integer.parseInt(movieIDString);
                 int rating = Integer.parseInt(ratingString);
-                movieDAO.updateRating(rating, movieID, movieID);
-                response.sendRedirect("viewMovie?id="+movieID);
+//                out.println(movieID + "<br>" + rating);
+                movieDAO.updateRating(rating, movieID, member.getMemberID());
+                response.sendRedirect("member/viewMovie.jsp?id="+movieID + "&server=Google Drive");
                 return;
             }
             default: {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("user/index.jsp");
                 return;
             }
         }

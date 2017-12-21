@@ -18,5 +18,9 @@ public class Admin extends Member{
         super(memberID, userName, password, email, profilePictureLink);
     }
     
+    public Admin(Member member){
+        super(member.getMemberID(), member.getUserName(), member.getPassword(), member.getEmail(), member.getProfilePictureLink());
+    }
+    
     
 }

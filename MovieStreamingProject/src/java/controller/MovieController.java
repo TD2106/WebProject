@@ -38,6 +38,7 @@ public class MovieController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         MemberDAO memberDAO = new MemberDAO();
         MovieDAO movieDAO = new MovieDAO();
         LinkDAO linkDAO = new LinkDAO();
@@ -46,7 +47,7 @@ public class MovieController extends HttpServlet {
         Member member;
         HttpSession session = request.getSession();
         if (session.getAttribute("member") == null && session.getAttribute("admin") == null) {
-            response.sendRedirect("notMember.jsp");
+            response.sendRedirect("member/notMember.jsp");
             return;
         }
         if (session.getAttribute("member") != null) {
@@ -57,33 +58,35 @@ public class MovieController extends HttpServlet {
         if (!memberDAO.isMemberWithUserNameExist(member.getUserName())) {
             session.removeAttribute("member");
             session.removeAttribute("admin");
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("user/index.jsp");
             return;
         }
         String action = request.getParameter("action");
         switch (action) {
             case "watch": {
                 String movieIDString = request.getParameter("movieID");
+                String server = request.getParameter("server");
                 if (movieIDString == null) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("user/index.jsp");
                     return;
                 }
                 int movieID = Integer.parseInt(movieIDString);
+                //out.println(server + "<br>" + movieID);
                 ArrayList<Link> movieLinks = linkDAO.getLinkByMovieID(movieID);
                 session.setAttribute("listOfLinks" + movieID, movieLinks);
                 logDAO.addWatchLog(member.getMemberID(), movieID);
-                response.sendRedirect("");
+                response.sendRedirect("member/viewMovie.jsp?id=" + movieID + "&server=" + server);
                 return;
             }
             case "edit": {
                 String movieIDString = request.getParameter("movieID");
                 if (movieIDString == null) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("user/index.jsp");
                     return;
                 }
                 int movieID = Integer.parseInt(movieIDString);
                 if (!adminDAO.isAdmin(member.getMemberID())) {
-                    response.sendRedirect("notMember.jsp");
+                    response.sendRedirect("member/notMember.jsp");
                     return;
                 }
                 String movieName = request.getParameter("movieName");
@@ -95,6 +98,7 @@ public class MovieController extends HttpServlet {
                 String length = request.getParameter("length");
                 String categoryIDString = request.getParameter("category");
                 int categoryID = Integer.parseInt(categoryIDString);
+                //out.println(movieName + "<br>" + movieDescription + "<br>" + moviePosterLink + "<br>" + movieTrailerLink + "<br>" + country + "<br>" + year + "<br>" + length + "<br>" + categoryID);
                 movieDAO.updateMovieName(movieName, movieID);
                 movieDAO.updateCategoryID(categoryID, movieID);
                 movieDAO.updateCountry(country, movieID);
@@ -104,27 +108,28 @@ public class MovieController extends HttpServlet {
                 movieDAO.updateYear(year, movieID);
                 movieDAO.updateMovieTrailerLink(movieTrailerLink, movieID);
                 logDAO.addAdminLog(member.getMemberID(), "Edit movie with id " + movieID);
-                response.sendRedirect("");
+                response.sendRedirect("user/viewMovieDetail.jsp?id=" + movieID);
                 return;
             }
             case "delete": {
                 String movieIDString = request.getParameter("movieID");
                 if (movieIDString == null) {
-                    response.sendRedirect("index.jsp");
+                    response.sendRedirect("user/index.jsp");
                     return;
                 }
                 int movieID = Integer.parseInt(movieIDString);
                 if (!adminDAO.isAdmin(member.getMemberID())) {
-                    response.sendRedirect("notMember.jsp");
+                    response.sendRedirect("member/notMember.jsp");
                     return;
                 }
                 movieDAO.deleteMovieByID(movieID);
                 logDAO.addAdminLog(member.getMemberID(), "Delete movie with id " + movieID);
+                response.sendRedirect("admin/index.jsp");
                 return;
             }
             case "add": {
                 if (!adminDAO.isAdmin(member.getMemberID())) {
-                    response.sendRedirect("notMember.jsp");
+                    response.sendRedirect("member/notMember.jsp");
                     return;
                 }
                 String movieName = request.getParameter("movieName");
@@ -139,11 +144,11 @@ public class MovieController extends HttpServlet {
                 movieDAO.addMovie(movieName, movieDescription, moviePosterLink, movieTrailerLink, country, year, length, categoryID);
                 int movieID = movieDAO.getLastInsertMovieID();
                 logDAO.addAdminLog(member.getMemberID(), "Add movie with id "+ movieID);
-                response.sendRedirect("");
+                response.sendRedirect("admin/index.jsp");
                 return;
             }
             default:{
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("user/index.jsp");
                 return;
             }
         }

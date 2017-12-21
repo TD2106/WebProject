@@ -197,7 +197,7 @@ public class MovieDAO {
     }
     public ArrayList<Movie> getMovieByKeywordAndDescriptionAndCategory(String keyword, int categoryID) throws SQLException{
         keyword = keyword.toUpperCase();
-        String sqlQuery = "select idmovie from movie where upper(moviename) like ? or upper(moviedescription) like ? and idcategory = ?";
+        String sqlQuery = "select idmovie from movie where (upper(moviename) like ? or upper(moviedescription) like ?) and idcategory = ?";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setString(1,"%"+ keyword +"%");
         sqlStatement.setString(2,"%"+ keyword +"%");
@@ -261,8 +261,9 @@ public class MovieDAO {
         }
         return result;
     }
-//    public static void main(String[] args) throws Exception{
-//        MovieDAO test = new MovieDAO();
-//        System.out.println(test.lastInsertMovieID());
-//    }
+    public static void main(String[] args) throws Exception{
+        MovieDAO test = new MovieDAO();
+        //System.out.println(test.lastInsertMovieID());
+        //test.updateRating(2, 30, 2);
+    }
 }

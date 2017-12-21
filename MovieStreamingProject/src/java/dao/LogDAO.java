@@ -20,24 +20,26 @@ public class LogDAO {
         dbConnection = DBConnection.getConnection();
     }
     public ArrayList<WatchLog> getAllWatchLogOfMember(int memberID) throws SQLException{
-        String sqlQuery = "select * from "
-                + "(select l.idlog,l.logtime,w.idmember,w.idmovie" +
-                 "from log as l join watchlog as w on l.idLog = w.idLog "
-                + "where w.idmember = ?);";
+//        String sqlQuery = "select * from "
+//                + "(select l.idlog,l.logtime,w.idmember,w.idmovie" +
+//                 "from log as l join watchlog as w on l.idLog = w.idLog "
+//                + "where w.idmember = ?);";
+        String sqlQuery = "select * from log l join watchLog w on l.idLog = w.idLog where w.idmember = ?";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setInt(1, memberID);
         ResultSet resultSet  = sqlStatement.executeQuery();
         ArrayList<WatchLog> result = new ArrayList<>();
         while(resultSet.next()){
-            result.add(new WatchLog(resultSet.getInt("idmember"),resultSet.getInt("idmovie"),resultSet.getInt("idlog"),resultSet.getString("logtime")));
+            result.add(new WatchLog(resultSet.getInt("idmovie"),resultSet.getInt("idmember"),resultSet.getInt("idlog"),resultSet.getString("logtime")));
         }
         return result;
     }
     public ArrayList<AdminLog> getAllAdminLogOfMember(int memberID) throws SQLException{
-        String sqlQuery = "select * from "
-                + "(select l.idlog,l.logtime,a.idmember,a.actiontaken" +
-                 "from log as l join adminlog as a on l.idLog = a.idLog "
-                + "where a.idmember = ?);";
+//        String sqlQuery = "select * from "
+//                + "(select l.idlog,l.logtime,a.idmember,a.actiontaken" +
+//                 "from log as l join adminlog as a on l.idLog = a.idLog "
+//                + "where a.idmember = ?);";
+        String sqlQuery = "select * from log l join adminLog a on l.idLog = a.idLog where a.idmember = ?";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setInt(1, memberID);
         ResultSet resultSet  = sqlStatement.executeQuery();
@@ -48,9 +50,7 @@ public class LogDAO {
         return result;
     }
     public ArrayList<AdminLog> getAllAdminLog() throws SQLException{
-        String sqlQuery = "select * from "
-                + "(select l.idlog,l.logtime,a.idmember,a.actiontaken" +
-                 "from log as l join adminlog as a on l.idLog = a.idLog ;";
+        String sqlQuery = "select l.idlog,l.logtime,a.idmember,a.actiontaken from log l join adminlog a on l.idLog = a.idLog";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         ResultSet resultSet  = sqlStatement.executeQuery();
         ArrayList<AdminLog> result = new ArrayList<>();
@@ -88,6 +88,8 @@ public class LogDAO {
     }
     public static void main (String[] args) throws SQLException, ClassNotFoundException{
         LogDAO test = new LogDAO();
-        test.addWatchLog(1, 2);
+//        List<WatchLog> memberLogs = test.getAllWatchLogOfMember(2);
+        test.getAllAdminLogOfMember(1);
+//        System.out.print(1);
     }
 }

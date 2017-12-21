@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>UserController</servlet-name>
-        <servlet-class>controller.UserController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>MemberController</servlet-name>
-        <servlet-class>controller.MemberController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>FavoriteController</servlet-name>
-        <servlet-class>controller.FavoriteController</servlet-class>
-    </servlet>
+<web-app id="WebApp_ID" version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee    http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>EmailSendingWebApp</display-name>
+    <!-- SMTP settings -->
+    <context-param>
+        <param-name>host</param-name>
+        <param-value>smtp.gmail.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>port</param-name>
+        <param-value>587</param-value>
+    </context-param>
+    <context-param>
+        <param-name>user</param-name>
+        <param-value>haanh16091997@gmail.com</param-value>
+    </context-param>
+    <context-param>
+        <param-name>pass</param-name>
+        <param-value>chuabiet155</param-value>
+    </context-param>
     <servlet>
         <servlet-name>RatingController</servlet-name>
         <servlet-class>controller.RatingController</servlet-class>
@@ -29,18 +35,6 @@
         <servlet-class>controller.CategoryController</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserController</servlet-name>
-        <url-pattern>/UserController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MemberController</servlet-name>
-        <url-pattern>/MemberController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>FavoriteController</servlet-name>
-        <url-pattern>/FavoriteController</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>RatingController</servlet-name>
         <url-pattern>/RatingController</url-pattern>
     </servlet-mapping>
@@ -56,9 +50,7 @@
         <servlet-name>CategoryController</servlet-name>
         <url-pattern>/CategoryController</url-pattern>
     </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

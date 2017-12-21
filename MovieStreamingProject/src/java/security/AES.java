@@ -7,7 +7,7 @@ package security;
 
 /**
  *
- * @author Duy Le
+ * @author huong
  */
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -21,9 +21,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
- 
+
 public class AES {
- 
     private static SecretKeySpec secretKey;
     private static byte[] key;
  
@@ -73,4 +72,9 @@ public class AES {
         }
         return null;
     }
+    
+//    public static void main(String[] args){
+//        String pass = encrypt("Td210607", "bestmoviesite");
+//        System.out.println(pass);
+//    }
 }
