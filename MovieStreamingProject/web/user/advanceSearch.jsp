@@ -25,7 +25,7 @@
             <div class="form-group">
                 Keyword
                 <br>
-                <input type="text" name="keyword" class="form-control" required autofocus>
+                <input id="advSearch" type="text" name="keyword" class="form-control" required autofocus>
             </div>
             <div class="form-group">
 <%

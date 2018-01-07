@@ -12,7 +12,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Watching Movie Website</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.8.0.min.js"></script>
+        <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.js'></script>
+        
+        <script type="text/javascript" src="../javascript/jquery.autocomplete.js"></script>
+        
+        <script language="javascript" type="text/javascript">
+
+            jQuery(function () {
+                $("#advSearch").autocomplete("list.jsp");
+            });
+        </script>
+        
         <link rel="stylesheet" href="../css/style.css">
+        <script type="text/javascript" src="../javascript/script.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -37,16 +52,21 @@
 <%  
     CategoryDAO categoryDAO = new CategoryDAO();
     List<Category> categories = categoryDAO.getAllCategory();
-    int count = 1;
     for(Category category: categories){
 %>    
-                                <li><a href="../user/categoryMovie.jsp?id=<%=count%>" class="btn"><%=category.getCategoryName()%></a></li>
+                                <li><a href="../user/categoryMovie.jsp?id=<%=category.getCategoryID()%>" class="btn"><%=category.getCategoryName()%></a></li>
 
 <%
-        count++;
     }
 
-%>                                    
+%>              
+                            <form action="../CategoryController?action=add" method="POST">
+                                <div style="position: relative;" class="form-group">
+                                    <input type="text" name="categoryName" class="form-control" placeholder="Name" required>
+                                    <button style="position: absolute; right: 0%; top: 2%;" type="submit" class="btn btn-success" title="Add Category"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+                                </div>
+                                
+                            </form>
                             </ul>
                         </li>
                     </ul>

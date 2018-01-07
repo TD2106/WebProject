@@ -58,19 +58,19 @@ public class CategoryController extends HttpServlet {
                 String categoryName = request.getParameter("categoryName");
                 categoryDAO.addCategory(categoryName);
                 logDAO.addAdminLog(member.getMemberID(), "Add category "+categoryName);
-                response.sendRedirect("");
+                response.sendRedirect("admin/index.jsp");
                 return;
             }
             case "delete":{
                 String categoryIDString = request.getParameter("categoryID");
                 int categoryID = Integer.parseInt(categoryIDString);
                 if(categoryDAO.isCategoryHasMovie(categoryID)){
-                    response.sendRedirect("failed");
+                    response.sendRedirect("admin/index.jsp");
                     return;
                 }
                 categoryDAO.deleteCategory(categoryID);
                 logDAO.addAdminLog(member.getMemberID(), "Delete category with id "+categoryID);
-                response.sendRedirect("");
+                response.sendRedirect("admin/index.jsp");
                 return;
             }
         }

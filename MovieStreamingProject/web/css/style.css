@@ -51,6 +51,52 @@ fieldset.title legend {
     font-weight: 100;
     font-size: 1.1em;
 }
+
+.ac_results {
+	padding: 0px;
+	border: 1px solid #232323;
+	background-color: white;
+        border-radius: 5%;
+        
+}
+
+.ac_results ul {
+	list-style-position: outside;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.ac_results li {
+	margin: 0px;
+	display: block;
+	color: #333333;
+        padding-left: 5%;
+        padding-bottom: 5%;
+        padding-top: 5%;
+	/* 
+	if width will be 100% horizontal scrollbar will apear 
+	when scroll mode will be used
+	*/
+	font-size: 0.9em;
+	/* 
+	it is very important, if line-height not setted or setted 
+	in relative units scroll will be broken in firefox
+	*/
+	line-height: 16px;
+	overflow: hidden;
+
+}
+
+.ac_odd {
+	background-color: #d0f3e2;
+}
+
+.ac_over {
+	background-color:#97daba;
+	color: white;
+}
+
 .show-image:hover img{
     opacity: 0.3;
     transition: all 0.4s;

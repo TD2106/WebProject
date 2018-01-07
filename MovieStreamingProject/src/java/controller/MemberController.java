@@ -113,7 +113,7 @@ public class MemberController extends HttpServlet {
                 if (!memberDAO.isMemberWithUserNameExist(member.getUserName())) {
                     session.removeAttribute("member");
                     session.removeAttribute("admin");
-                    response.sendRedirect("user/index.jsp");
+                    response.sendRedirect("../MemberController?action=logout");
                     return;
                 }
                 String password = request.getParameter("password");
@@ -138,7 +138,7 @@ public class MemberController extends HttpServlet {
             
             case "delete":{
                 if (session.getAttribute("member") == null && session.getAttribute("admin") == null) {
-                    response.sendRedirect("notMember.jsp");
+                    response.sendRedirect("member/notMember.jsp");
                     return;
                 }
                 Member member;
@@ -148,7 +148,7 @@ public class MemberController extends HttpServlet {
                     member = (Member) session.getAttribute("admin");
                 }
                 if(!adminDAO.isAdmin(member.getMemberID())){
-                    response.sendRedirect("user/index.jsp");
+                    response.sendRedirect("../MemberController?action=logout");
                     return;
                 }
                 String[] deleteMembers = request.getParameterValues("account");
@@ -173,7 +173,7 @@ public class MemberController extends HttpServlet {
                 if(!memberDAO.isMemberWithUserNameExist(member.getUserName())){
                     session.removeAttribute("member");
                     session.removeAttribute("admin");
-                    response.sendRedirect("member/notMember.jsp");
+                    response.sendRedirect("../MemberController?action=logout");
                     return;
                 }
                 int movieID = Integer.parseInt(request.getParameter("id"));

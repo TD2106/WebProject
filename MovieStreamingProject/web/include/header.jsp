@@ -12,7 +12,32 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Watching Movie Website</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+        
+        <script id="jqVer" type="text/javascript" src="https://code.jquery.com/jquery-1.8.0.min.js"></script>
+        <script id="btVer" type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/js/bootstrap.js'></script>
+        
+        
+        
+        
+        <script type="text/javascript" src="../javascript/jquery.autocomplete.js"></script>
+        <script language="javascript" type="text/javascript">
+
+            jQuery(function () {
+                $("#search").autocomplete("../user/list.jsp");
+            });
+        </script>
+        
+        <script language="javascript" type="text/javascript">
+
+            jQuery(function () {
+                $("#advSearch").autocomplete("list.jsp");
+            });
+        </script>
+        
+        
         <link rel="stylesheet" href="../css/style.css">
+        <script type="text/javascript" src="../javascript/script.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -34,13 +59,11 @@
 <%  
     CategoryDAO categoryDAO = new CategoryDAO();
     List<Category> categories = categoryDAO.getAllCategory();
-    int count = 1;
     for(Category category: categories){
 %>    
-                                <li><a href="../user/categoryMovie.jsp?id=<%=count%>" class="btn"><%=category.getCategoryName()%></a></li>
+                                <li><a href="../user/categoryMovie.jsp?id=<%=category.getCategoryID()%>" class="btn"><%=category.getCategoryName()%></a></li>
 
 <%
-        count++;
     }
 
 %>                                    
@@ -49,9 +72,11 @@
                     </ul>
                     <form action="../user/search.jsp" method="POST" class="navbar-form navbar-left">
                         <div class="form-group">
-                            <input name="keyword" type="text" class="form-control" placeholder="Search Movie">
+                            <input name="keyword" type="text" class="form-control" id="search" placeholder="Search Movie">
+                            
+                            
                         </div>
-                        <button type="submit" class="btn btn-default">Search</button>
+                        <button type="submit" id="searchButton" class="btn btn-default">Search</button>
                     </form>
                     <div class='nav navbar-nav navbar-right'>
 <%

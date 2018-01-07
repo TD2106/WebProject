@@ -86,7 +86,7 @@ public class MovieController extends HttpServlet {
                 }
                 int movieID = Integer.parseInt(movieIDString);
                 if (!adminDAO.isAdmin(member.getMemberID())) {
-                    response.sendRedirect("member/notMember.jsp");
+                    response.sendRedirect("../MemberController?action=logout");
                     return;
                 }
                 String movieName = request.getParameter("movieName");
@@ -119,7 +119,7 @@ public class MovieController extends HttpServlet {
                 }
                 int movieID = Integer.parseInt(movieIDString);
                 if (!adminDAO.isAdmin(member.getMemberID())) {
-                    response.sendRedirect("member/notMember.jsp");
+                    response.sendRedirect("../MemberController?action=logout");
                     return;
                 }
                 movieDAO.deleteMovieByID(movieID);
@@ -129,7 +129,7 @@ public class MovieController extends HttpServlet {
             }
             case "add": {
                 if (!adminDAO.isAdmin(member.getMemberID())) {
-                    response.sendRedirect("member/notMember.jsp");
+                    response.sendRedirect("../MemberController?action=logout");
                     return;
                 }
                 String movieName = request.getParameter("movieName");

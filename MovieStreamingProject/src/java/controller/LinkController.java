@@ -46,12 +46,12 @@ public class LinkController extends HttpServlet {
         Member member;
         HttpSession session = request.getSession();
         if (session.getAttribute("admin") == null) {
-            response.sendRedirect("member/notMember.jsp");
+            response.sendRedirect("../MemberController?action=logout");
             return;
         }
         member = (Member) session.getAttribute("admin");
         if (!adminDAO.isAdmin(member.getMemberID())) {
-            response.sendRedirect("member/notMember.jsp");
+            response.sendRedirect("../MemberController?action=logout");
             return;
         }
         String movieIDString = request.getParameter("movieID");
@@ -68,7 +68,7 @@ public class LinkController extends HttpServlet {
                 //out.println(serverName);
                 linkDAO.addLink(movieLink, serverName, movieID);
                 logDAO.addAdminLog(member.getMemberID(), "Add " + serverName + " link for movie with id " + movieID);
-                response.sendRedirect("member/viewMovie.jsp?id=" + movieID);
+                response.sendRedirect("member/viewMovie.jsp?id=" + movieID + "&server=Google Drive");
                 return;
             }
             case "delete": {
@@ -76,11 +76,11 @@ public class LinkController extends HttpServlet {
                 int linkID = Integer.parseInt(linkIDString);
                 linkDAO.deleteLink(linkID);
                 logDAO.addAdminLog(member.getMemberID(), "Delete link with id " + linkID +" of movie with id "+movieID);
-                response.sendRedirect("member/viewMovie.jsp?id=" + movieID);
+                response.sendRedirect("member/viewMovie.jsp?id=" + movieID + "&server=Google Drive");
                 return;
             }
             default: {
-                response.sendRedirect("index.jsp");
+                response.sendRedirect("user/index.jsp");
                 return;
             }
         }

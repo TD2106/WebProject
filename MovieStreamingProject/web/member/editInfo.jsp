@@ -3,7 +3,7 @@
     Created on : Dec 16, 2017, 9:16:13 PM
     Author     : huong
 --%>
-<%@page import="java.sql.*, dao.*, model.*, db.*, email.*, java.util.*"%>
+<%@page import="java.sql.*, dao.*, model.*, db.*, email.*, java.util.*, security.AES"%>
 <%
     String result = request.getParameter("result");
     Member member = (Member)session.getAttribute("member");
@@ -13,6 +13,9 @@
         
         MemberDAO memberDAO = new MemberDAO();
         Member foundMember = memberDAO.getMemberByID(idMember);
+        
+        String oldPass = foundMember.getPassword();
+        oldPass = AES.decrypt(oldPass, "bestmoviesite");
         
         if(member != null && member.getMemberID() == idMember){
 %>
@@ -35,12 +38,12 @@
                         <div class="form-group">
                             Password
                             <br>
-                            <input type="password" name="password" id="password" class="form-control" value="<%=foundMember.getPassword()%>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <input type="password" name="password" id="password" class="form-control" value="<%=oldPass%>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                         </div>
                         <div class="form-group">
                             Confirm Password
                             <br>
-                            <input type="password" id="confirm_password" class="form-control" value="<%=foundMember.getPassword()%>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                            <input type="password" id="confirm_password" class="form-control" value="<%=oldPass%>" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
                         </div>
                         <div class="form-group">
                             Email address

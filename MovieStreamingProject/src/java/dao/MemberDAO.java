@@ -8,6 +8,7 @@ import db.DBConnection;
 import java.sql.*;
 import java.util.*;
 import model.*;
+import security.AES;
 /**
  *
  * @author Duy Le
@@ -98,6 +99,7 @@ public class MemberDAO {
         return resultMember;
     }
     public void updateUserPassword(String password,int memberID) throws SQLException{
+        password = AES.encrypt(password, "bestmoviesite");
         String sqlQuery = "update member set password = ? where idMember = ? ; " ;      
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setString(1, password);

@@ -35,11 +35,10 @@ public class LogDAO {
         return result;
     }
     public ArrayList<AdminLog> getAllAdminLogOfMember(int memberID) throws SQLException{
-//        String sqlQuery = "select * from "
-//                + "(select l.idlog,l.logtime,a.idmember,a.actiontaken" +
-//                 "from log as l join adminlog as a on l.idLog = a.idLog "
-//                + "where a.idmember = ?);";
-        String sqlQuery = "select * from log l join adminLog a on l.idLog = a.idLog where a.idmember = ?";
+        String sqlQuery = "select * from "
+                + "(select l.idlog,l.logtime,a.idmember,a.actiontaken" +
+                 "from log as l join adminlog as a on l.idLog = a.idLog "
+                + "where a.idmember = ?);";
         PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
         sqlStatement.setInt(1, memberID);
         ResultSet resultSet  = sqlStatement.executeQuery();
@@ -88,8 +87,6 @@ public class LogDAO {
     }
     public static void main (String[] args) throws SQLException, ClassNotFoundException{
         LogDAO test = new LogDAO();
-//        List<WatchLog> memberLogs = test.getAllWatchLogOfMember(2);
-        test.getAllAdminLogOfMember(1);
-//        System.out.print(1);
+        test.addAdminLog(1, "Delete member with id 2");
     }
 }

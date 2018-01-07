@@ -23,7 +23,7 @@
     <div style="text-align: center;" class="page-header">
         <h1>Remove Account</h1>
     </div>
-    <form action="removeAccProcess.jsp" method="POST">
+    <form action="../MemberController?action=delete" method="POST">
         <table class="table table-striped">
             <thead>
                 <tr>

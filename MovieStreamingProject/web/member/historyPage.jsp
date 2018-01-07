@@ -5,59 +5,54 @@
 --%>
 <%@page import="java.sql.*, dao.*, model.*, db.*, email.*, java.util.*"%>
 <%
+    Member member = (Member)session.getAttribute("member");
+    Member admin = (Member)session.getAttribute("admin");
+    
+    MemberDAO memberDAO = new MemberDAO();
+    Member foundMember = null;
+    
+    int idMember = 0;
+    
+    if(admin != null){
+        foundMember = memberDAO.getMemberByID(admin.getMemberID());
+        idMember = admin.getMemberID();
+%>
+        <jsp:include page="../admin/include/header.jsp" flush="true" />
+<%
+    }else if(member != null){
+        foundMember = memberDAO.getMemberByID(member.getMemberID());
+        idMember = member.getMemberID();
+%>
+        <jsp:include page="../include/header.jsp" flush="true" />
+<%
+    }else{
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/member/notMember.jsp");
+        dispatcher.forward(request, response);
+    }
+
     int pageNo = Integer.parseInt(request.getParameter("page"));
     int noOfPage = Integer.parseInt(request.getParameter("noOfPage"));
     int count = 0;
     
-    Member member = (Member)session.getAttribute("member");
-    if(member != null){
-        MemberDAO memberDAO = new MemberDAO();
-        Member foundMember = memberDAO.getMemberByID(member.getMemberID());
-        
-        LogDAO logDAO = new LogDAO();
-        List<WatchLog> memberLogs = logDAO.getAllWatchLogOfMember(member.getMemberID());
-        MovieDAO movieDAO = new MovieDAO();
-%>  
-        <jsp:include page="../include/header.jsp" flush="true" />
-        <div class="row">
-            <div class="col-md-3 col-sm-4 col-xs-0">
-                <p class="lead">
-                    <div class="wrapper">
-                        <img src="<%=foundMember.getProfilePictureLink()%>">
-                        <a href="editInfo.jsp?idMember=<%=member.getMemberID()%>&result=" title="Edit your info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                    </div>
-
-                </p>
+    LogDAO logDAO = new LogDAO();
+    List<WatchLog> memberLogs = logDAO.getAllWatchLogOfMember(idMember);
+    MovieDAO movieDAO = new MovieDAO();
+%>
+    <div class="row">
+        <div class="col-md-3 col-sm-4 col-xs-0">
+            <p class="lead">
+                <div class="wrapper">
+                    <img src="<%=foundMember.getProfilePictureLink()%>">
+                    <a href="editInfo.jsp?idMember=<%=idMember%>&result=" title="Edit your info"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                </div>
                 <ul class="list-group">
                     <li style="text-align: center;" class="list-group-item"><%=foundMember.getUserName()%></li>
                     <li style="text-align: center;" class="list-group-item"><%=foundMember.getEmail()%></li>
                 </ul>
-
-                <fieldset class="title">
-                    <legend>Request Movie</legend>
-                </fieldset>
-                <form action="../EmailSendingServlet" method="post">
-                    <div class="form-group">
-                        Movie Name
-                        <br>
-                        <input type="text" name="subject" class="form-control" placeholder="Casablanca" required>
-                    </div>
-                    <div class="form-group">
-                        Movie Link
-                        <br>
-                        <input type="text" name="content" class="form-control" placeholder="http://" pattern="https?://.+" title="Include http://">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                    <div class="form-group">
-                        <input type="hidden" name="id" class="form-control" value="<%=member.getMemberID()%>">
-                    </div>
-                    <div class="form-group">
-                        <input type="hidden" name="recipient" class="form-control" value="huongung155@gmail.com" required>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-9 col-sm-8 col-xs-12">
-                <div class="text-center" style="display: flex; flex-wrap: wrap;">
+            </p>
+        </div>
+        <div class="col-md-9 col-sm-8 col-xs-12">
+            <div class="text-center" style="display: flex; flex-wrap: wrap;">
 <%
         for(WatchLog memberLog: memberLogs){
             if((count < pageNo*12) && (count >= (pageNo-1) * 12)){
@@ -81,37 +76,31 @@
             count++;
         }
 %> 
-                </div>
-                <nav style="text-align: center;" aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li><a href="history.jsp">1</a></li>
+            </div>
+            <nav style="text-align: center;" aria-label="Page navigation">
+                <ul class="pagination">
+                    <li><a href="history.jsp">1</a></li>
 <%
-                    count = 2;
-                    while(count <= noOfPage){
-                        if(count == pageNo){
+                count = 2;
+                while(count <= noOfPage){
+                    if(count == pageNo){
 %>   
-                            <li class="active"><a href="historyPage.jsp?page=<%=count%>&noOfPage=<%=noOfPage%>"><%=count%></a></li>
+                        <li class="active"><a href="historyPage.jsp?page=<%=count%>&noOfPage=<%=noOfPage%>"><%=count%></a></li>
 <%  
-                        }else{
+                    }else{
 %>
-                            <li><a href="historyPage.jsp?page=<%=count%>&noOfPage=<%=noOfPage%>"><%=count%></a></li>
-<%                      }
-                        count++;
-                    }
+                        <li><a href="historyPage.jsp?page=<%=count%>&noOfPage=<%=noOfPage%>"><%=count%></a></li>
+<%                  }
+                    count++;
+                }
 %>            
-                    </ul>
-                </nav>
-            </div> 
+                </ul>
+            </nav>
         </div>
-        
-        <jsp:include page="../include/footer.jsp" flush="true" />
-        <script>
-            $("#profile").addClass("active");
-            $("#categoryName").html("History<span class=\"caret\"></span>");
-            $("#categoryName + .dropdown-menu").html("<li><a href=\"../member/member.jsp?id=<%=member.getMemberID()%>\" class=\"btn\">Favorite</a></li>");
-        </script>
-<%
-    }else{
-        response.sendRedirect("../MemberController?action=logout");
-    }
-%>
+    </div>
+<jsp:include page="../include/footer.jsp" flush="true" />
+<script>
+    $("#profile").addClass("active");
+    $("#categoryName").html("History<span class=\"caret\"></span>");
+    $("#categoryName + .dropdown-menu").html("<li><a href=\"../member/member.jsp?id=<%=idMember%>\" class=\"btn\">Favorite</a></li>");
+</script>

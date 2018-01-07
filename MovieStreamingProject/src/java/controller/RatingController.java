@@ -57,7 +57,7 @@ public class RatingController extends HttpServlet {
         if (!memberDAO.isMemberWithUserNameExist(member.getUserName())) {
             session.removeAttribute("member");
             session.removeAttribute("admin");
-            response.sendRedirect("user/index.jsp");
+            response.sendRedirect("../MemberController?action=logout");
             return;
         }
         String action = request.getParameter("action");
