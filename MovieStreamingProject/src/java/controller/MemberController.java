@@ -44,7 +44,7 @@ public class MemberController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException, MessagingException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");
@@ -97,19 +97,24 @@ public class MemberController extends HttpServlet {
                         return;
                     }
                     else{
-                        if(profilePictureLink == null) memberDAO.addMember(username, password, email);
-                        else memberDAO.addMember(username, password, email, profilePictureLink);
                         ServletContext context = getServletContext();
                         String host = context.getInitParameter("host");
                         String port = context.getInitParameter("port");
                         String user = context.getInitParameter("user");
                         String pass = context.getInitParameter("pass");
-                        out.println(host);
                         String confirmLink = "http://localhost:8084/MovieStreamingProject/MemberController?action=confirm&code="+confirmCode;
                         String content = "Please click at the link below to verify your account\n"+confirmLink;
-                        EmailUtility.sendEmail(host, port, user, pass, email, "Movie Site Confirmation", content);
-                        response.sendRedirect("user/pleaseConfirm.jsp");
-                        return;
+                        try {
+                            EmailUtility.sendEmail(host, port, user, pass, email, "Movie Site Confirmation", content);
+                            if(profilePictureLink == null) memberDAO.addMember(username, password, email);
+                            else memberDAO.addMember(username, password, email, profilePictureLink);
+                            response.sendRedirect("user/pleaseConfirm.jsp");
+                            return;
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
+                            response.sendRedirect("user/register.jsp?result=error");
+                            return;
+                        }
                     }
                 }
             }
@@ -242,8 +247,6 @@ public class MemberController extends HttpServlet {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
-            Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -263,8 +266,6 @@ public class MemberController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MessagingException ex) {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
