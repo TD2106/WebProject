@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `moviestreamingwebsite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `moviestreamingwebsite`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: moviestreamingwebsite
@@ -40,7 +38,7 @@ CREATE TABLE `favorite` (
 
 LOCK TABLES `favorite` WRITE;
 /*!40000 ALTER TABLE `favorite` DISABLE KEYS */;
-INSERT INTO `favorite` VALUES (3,1),(3,2),(4,2),(2,3),(2,5),(3,5),(1,9),(4,12);
+INSERT INTO `favorite` VALUES (2,24),(2,28),(2,30);
 /*!40000 ALTER TABLE `favorite` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-12  6:02:48
+-- Dump completed on 2018-01-08 11:55:19

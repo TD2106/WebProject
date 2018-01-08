@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.*;
 import security.AES;
+import email.EmailUtility;
+import javax.mail.MessagingException;
+import javax.servlet.ServletContext;
 
 /**
  *
@@ -41,7 +44,7 @@ public class MemberController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException, ClassNotFoundException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException, MessagingException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String action = request.getParameter("action");
@@ -56,20 +59,26 @@ public class MemberController extends HttpServlet {
                 password = AES.encrypt(password, "bestmoviesite");
                 if(memberDAO.isLoginInformationCorrect(username, password)){
                     Member member = memberDAO.getMemberByUserName(username);
+                    if(!memberDAO.isMemberConfirm(member.getMemberID())){
+                        response.sendRedirect("user/pleaseConfirm.jsp");
+                        return;
+                    }
                     if(adminDAO.isAdmin(username, password)){
                         member = new Admin(member);
                         session.setAttribute("admin", member);
                         response.sendRedirect("admin/index.jsp");
+                        return;
                     }
                     else {
                         session.setAttribute("member", member);
                         response.sendRedirect("user/index.jsp");
+                        return;
                     }
                 }
                 else{
                     response.sendRedirect("user/login.jsp?result=invalid");
+                    return;
                 }
-                return;
             }
             case "register":{
                 if(session.getAttribute("member") != null || session.getAttribute("admin") != null){
@@ -82,6 +91,7 @@ public class MemberController extends HttpServlet {
                     String password = request.getParameter("password");
                     String profilePictureLink = request.getParameter("profilePictureLink");
                     password = AES.encrypt(password, "bestmoviesite");
+                    String confirmCode = AES.encrypt(username, "bestmoviesite");
                     if(memberDAO.isMemberWithEmailExist(email)||memberDAO.isMemberWithUserNameExist(username)){
                         response.sendRedirect("user/register.jsp?result=exists");
                         return;
@@ -89,9 +99,16 @@ public class MemberController extends HttpServlet {
                     else{
                         if(profilePictureLink == null) memberDAO.addMember(username, password, email);
                         else memberDAO.addMember(username, password, email, profilePictureLink);
-                        Member member = memberDAO.getMemberByUserName(username);
-                        session.setAttribute("member", member);
-                        response.sendRedirect("user/index.jsp");
+                        ServletContext context = getServletContext();
+                        String host = context.getInitParameter("host");
+                        String port = context.getInitParameter("port");
+                        String user = context.getInitParameter("user");
+                        String pass = context.getInitParameter("pass");
+                        out.println(host);
+                        String confirmLink = "http://localhost:8084/MovieStreamingProject/MemberController?action=confirm&code="+confirmCode;
+                        String content = "Please click at the link below to verify your account\n"+confirmLink;
+                        EmailUtility.sendEmail(host, port, user, pass, email, "Movie Site Confirmation", content);
+                        response.sendRedirect("user/pleaseConfirm.jsp");
                         return;
                     }
                 }
@@ -181,7 +198,25 @@ public class MemberController extends HttpServlet {
                 response.sendRedirect("member/viewMovie.jsp?id=" + movieID + "&server=Google Drive");
                 return;
             }
-            
+            case "confirm":{
+                String code = request.getParameter("code");
+                if(code==null){
+                    response.sendRedirect("user/index.jsp");
+                    return;
+                }
+                code = AES.decrypt(code, "bestmoviesite");
+                if(memberDAO.isMemberWithUserNameExist(code)){
+                    memberDAO.confirmMember(code);
+                    Member member = memberDAO.getMemberByUserName(code);
+                    session.setAttribute("member", member);
+                    response.sendRedirect("member/confirmed.jsp");
+                    return;
+                }
+                else{
+                    response.sendRedirect("user/index.jsp");
+                    return;
+                }
+            }
             default:{
                 response.sendRedirect("user/index.jsp");
                 return;
@@ -207,6 +242,8 @@ public class MemberController extends HttpServlet {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
+            Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -226,6 +263,8 @@ public class MemberController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MessagingException ex) {
             Logger.getLogger(MemberController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

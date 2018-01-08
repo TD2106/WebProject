@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `moviestreamingwebsite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `moviestreamingwebsite`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: moviestreamingwebsite
@@ -43,6 +41,7 @@ CREATE TABLE `watchlog` (
 
 LOCK TABLES `watchlog` WRITE;
 /*!40000 ALTER TABLE `watchlog` DISABLE KEYS */;
+INSERT INTO `watchlog` VALUES (228,28,2),(229,28,2),(230,30,2),(233,30,2),(234,30,2),(235,30,2),(236,30,2),(237,30,2),(238,24,2),(239,30,1),(240,30,1),(241,30,1),(242,30,1),(243,25,1),(244,24,1),(245,23,1),(246,21,1),(247,21,1),(248,19,1),(249,22,1),(250,17,1),(251,24,1),(252,26,1);
 /*!40000 ALTER TABLE `watchlog` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-12  6:02:49
+-- Dump completed on 2018-01-08 11:55:19

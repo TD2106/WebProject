@@ -1,4 +1,4 @@
-package email;
+package controller;
 
 import java.io.IOException;
 
@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import email.EmailUtility;
 
 /**
  * A servlet that takes message details from user and send it as a new e-mail
@@ -16,13 +17,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author www.codejava.net
  * 
  */
-@WebServlet("/EmailSendingServlet")
-public class EmailSendingServlet extends HttpServlet {
+public class EmailController extends HttpServlet {
 	private String host;
 	private String port;
 	private String user;
 	private String pass;
 
+        @Override
 	public void init() {
 		// reads SMTP server setting from web.xml file
 		ServletContext context = getServletContext();
@@ -32,6 +33,7 @@ public class EmailSendingServlet extends HttpServlet {
 		pass = context.getInitParameter("pass");
 	}
 
+        @Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		// reads form fields

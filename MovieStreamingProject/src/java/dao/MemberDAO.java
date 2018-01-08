@@ -137,8 +137,25 @@ public class MemberDAO {
         sqlStatement.setInt(2,memberID);
         sqlStatement.execute();
     }
-//    public static void main(String[] args) throws SQLException, ClassNotFoundException{
-//        MemberDAO test = new MemberDAO();
-//        test.addMember("TD2106", "lutden", "thanhduy2106@gmail.com");
-//    }
+    public boolean isMemberConfirm(int memberID) throws SQLException{
+        String sqlQuery = "select isConfirm from member where idmember = ?";
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setInt(1, memberID);
+        int isConfirm = 0;
+        ResultSet resultSet = sqlStatement.executeQuery();
+        while(resultSet.next()){
+            isConfirm = resultSet.getInt("isConfirm");
+        }
+        return (isConfirm == 1);
+    }
+    public void confirmMember(String userName) throws SQLException{
+        String sqlQuery = "update member set isConfirm = 1 where userName = ? ; " ;      
+        PreparedStatement sqlStatement = dbConnection.prepareStatement(sqlQuery);
+        sqlStatement.setString(1, userName);
+        sqlStatement.execute();
+    }
+    public static void main(String[] args) throws SQLException, ClassNotFoundException{
+        MemberDAO test = new MemberDAO();
+        test.confirmMember("quan1234");
+    }
 }

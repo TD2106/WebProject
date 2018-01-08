@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `moviestreamingwebsite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `moviestreamingwebsite`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: moviestreamingwebsite
@@ -30,6 +28,8 @@ CREATE TABLE `member` (
   `password` varchar(100) NOT NULL,
   `email` varchar(45) NOT NULL,
   `profilePictureLink` varchar(200) DEFAULT NULL,
+  `isConfirm` int(11) DEFAULT '0',
+  `codeConfirm` int(11) DEFAULT NULL,
   PRIMARY KEY (`idMember`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -40,7 +40,7 @@ CREATE TABLE `member` (
 
 LOCK TABLES `member` WRITE;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
-INSERT INTO `member` VALUES (1,'td2106','td2106','td2106@gmail.com','https://mphcmiuedu-my.sharepoint.com/personal/ititiu15033_student_hcmiu_edu_vn/Documents/Save%20File%20ML/1.jpg?slrid=5006249e-402c-4000-789a-d3d9fb5e6400'),(2,'dqc2106','dqc2106','dqc2106@gmail.com','https://mphcmiuedu-my.sharepoint.com/personal/ititiu15033_student_hcmiu_edu_vn/Documents/Save%20File%20ML/LVTD.jpg?slrid=5b06249e-20be-4000-789a-dc017a77762a'),(3,'quan123','quan123','quan123@gmail.com','https://asd.com'),(4,'quan1234','quan1234','quan1234@gmail.com','https://asd4.com');
+INSERT INTO `member` VALUES (1,'td2106','wL3lO7AoEkJH+kdAN2zACQ==','td2106@gmail.com','https://mphcmiuedu-my.sharepoint.com/personal/ititiu15033_student_hcmiu_edu_vn/Documents/Save%20File%20ML/1.jpg?slrid=5006249e-402c-4000-789a-d3d9fb5e6400',1,11111111),(2,'dqc2106','px+QaIKw63VTpJSV03PuAQ==','dqc2106@gmail.com.vn','https://mphcmiuedu-my.sharepoint.com/personal/ititiu15033_student_hcmiu_edu_vn/Documents/Save%20File%20ML/LVTD.jpg?slrid=5b06249e-20be-4000-789a-dc017a77762a',1,22222222),(4,'quan1234','llScR1Op3gqWZseT2+qsFA==','quan1234@gmail.com','',0,33333333);
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-12  6:02:49
+-- Dump completed on 2018-01-08 11:55:19

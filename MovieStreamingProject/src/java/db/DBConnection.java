@@ -13,7 +13,7 @@ public class DBConnection {
     private static Connection dbConnection;
     private static String connectionURL = "jdbc:mysql://localhost:3306/moviestreamingwebsite";
     private static String user = "root";
-    private static String password = "quan";
+    private static String password = "lutden";
     
     public static Connection getConnection() throws SQLException, ClassNotFoundException{
         Class.forName("com.mysql.jdbc.Driver");

@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `moviestreamingwebsite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `moviestreamingwebsite`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: moviestreamingwebsite
@@ -28,7 +26,7 @@ CREATE TABLE `category` (
   `idCategory` int(11) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(45) NOT NULL,
   PRIMARY KEY (`idCategory`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +35,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'Action'),(2,'Adventure'),(3,'Romantic'),(4,'Comedy'),(5,'Drama'),(6,'Historical'),(7,'Horror'),(8,'Kids');
+INSERT INTO `category` VALUES (1,'Action'),(2,'Adventure'),(3,'Romantic'),(4,'Comedy'),(5,'Drama'),(6,'Historical'),(7,'Horror'),(9,'Kids');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-12  6:02:48
+-- Dump completed on 2018-01-08 11:55:18

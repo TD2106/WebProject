@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `moviestreamingwebsite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `moviestreamingwebsite`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: moviestreamingwebsite
@@ -41,6 +39,7 @@ CREATE TABLE `adminlog` (
 
 LOCK TABLES `adminlog` WRITE;
 /*!40000 ALTER TABLE `adminlog` DISABLE KEYS */;
+INSERT INTO `adminlog` VALUES (125,'Edit movie with id 3',1),(126,'Edit movie with id 3',1),(127,'Edit movie with id 3',1),(128,'Delete movie with id 31',1),(129,'Add movie with id 32',1),(134,'Add Youtube link for movie with id 3',1),(146,'Add Youtube 2 link for movie with id 3',1),(148,'Delete link with id 10 of movie with id 3',1),(149,'Delete link with id 9 of movie with id 3',1),(169,'Delete movie with id 32',1),(170,'Edit movie with id 30',1),(171,'Add movie with id 33',1),(218,'Add Youtube link for movie with id 30',1),(231,'Delete category with id 8',1),(232,'Add category Kids',1),(254,'Delete member with id 3',1),(255,'Delete member with id 3',1),(256,'Delete member with id 5',1);
 /*!40000 ALTER TABLE `adminlog` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-12  6:02:48
+-- Dump completed on 2018-01-08 11:55:18
