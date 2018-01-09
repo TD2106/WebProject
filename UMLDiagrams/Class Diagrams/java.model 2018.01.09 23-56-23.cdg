@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="java.model">
+  <ClassDiagramComponents>
+    <Class name="Admin" package="model" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields/>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="memberID"/>
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="profilePictureLink"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="Member" name="member"/>
+        </Constructor>
+      </Constructors>
+      <Methods/>
+    </Class>
+    <Class name="AdminLog" package="model" visibility="public" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="actionTaken" type="String" visibility="private"/>
+        <Field name="memberID" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="actionTaken"/>
+          <Argument type="int" name="memberID"/>
+          <Argument type="int" name="logID"/>
+          <Argument type="String" name="time"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getMemberID" returnType="int" visibility="public"/>
+        <Method name="setMemberID" returnType="void" visibility="public">
+          <Argument type="int" name="memberID"/>
+        </Method>
+        <Method name="getActionTaken" returnType="String" visibility="public"/>
+        <Method name="setActionTaken" returnType="void" visibility="public">
+          <Argument type="String" name="actionTaken"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Category" package="model" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="categoryID" type="int" visibility="private"/>
+        <Field name="categoryName" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="categoryID"/>
+          <Argument type="String" name="categoryName"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getCategoryID" returnType="int" visibility="public"/>
+        <Method name="setCategoryID" returnType="void" visibility="public">
+          <Argument type="int" name="categoryID"/>
+        </Method>
+        <Method name="getCategoryName" returnType="String" visibility="public"/>
+        <Method name="setCategoryName" returnType="void" visibility="public">
+          <Argument type="String" name="categoryName"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Link" package="model" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="linkID" type="int" visibility="private"/>
+        <Field name="movieLink" type="String" visibility="private"/>
+        <Field name="serverName" type="String" visibility="private"/>
+        <Field name="movieID" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="linkID"/>
+          <Argument type="String" name="movieLink"/>
+          <Argument type="String" name="serverName"/>
+          <Argument type="int" name="movieID"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getMovieLink" returnType="String" visibility="public"/>
+        <Method name="setMovieLink" returnType="void" visibility="public">
+          <Argument type="String" name="movieLink"/>
+        </Method>
+        <Method name="getLinkID" returnType="int" visibility="public"/>
+        <Method name="setLinkID" returnType="void" visibility="public">
+          <Argument type="int" name="linkID"/>
+        </Method>
+        <Method name="getServerName" returnType="String" visibility="public"/>
+        <Method name="setServerName" returnType="void" visibility="public">
+          <Argument type="String" name="serverName"/>
+        </Method>
+        <Method name="getMovieID" returnType="int" visibility="public"/>
+        <Method name="setMovieID" returnType="void" visibility="public">
+          <Argument type="int" name="movieID"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Log" package="model" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="logID" type="int" visibility="private"/>
+        <Field name="time" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="logID"/>
+          <Argument type="String" name="time"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getLogID" returnType="int" visibility="public"/>
+        <Method name="setLogID" returnType="void" visibility="public">
+          <Argument type="int" name="logID"/>
+        </Method>
+        <Method name="getTime" returnType="String" visibility="public"/>
+        <Method name="setTime" returnType="void" visibility="public">
+          <Argument type="String" name="time"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Member" package="model" visibility="public" xPosition="1520.0" yPosition="20.0">
+      <Fields>
+        <Field name="memberID" type="int" visibility="private"/>
+        <Field name="userName" type="String" visibility="private"/>
+        <Field name="password" type="String" visibility="private"/>
+        <Field name="email" type="String" visibility="private"/>
+        <Field name="profilePictureLink" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="memberID"/>
+          <Argument type="String" name="userName"/>
+          <Argument type="String" name="password"/>
+          <Argument type="String" name="email"/>
+          <Argument type="String" name="profilePictureLink"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getMemberID" returnType="int" visibility="public"/>
+        <Method name="setMemberID" returnType="void" visibility="public">
+          <Argument type="int" name="memberID"/>
+        </Method>
+        <Method name="getUserName" returnType="String" visibility="public"/>
+        <Method name="setUserName" returnType="void" visibility="public">
+          <Argument type="String" name="userName"/>
+        </Method>
+        <Method name="getEmail" returnType="String" visibility="public"/>
+        <Method name="setEmail" returnType="void" visibility="public">
+          <Argument type="String" name="email"/>
+        </Method>
+        <Method name="getPassword" returnType="String" visibility="public"/>
+        <Method name="setPassword" returnType="void" visibility="public">
+          <Argument type="String" name="password"/>
+        </Method>
+        <Method name="getProfilePictureLink" returnType="String" visibility="public"/>
+        <Method name="setProfilePictureLink" returnType="void" visibility="public">
+          <Argument type="String" name="profilePictureLink"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Movie" package="model" visibility="public" xPosition="1820.0" yPosition="20.0">
+      <Fields>
+        <Field name="movieID" type="int" visibility="private"/>
+        <Field name="movieName" type="String" visibility="private"/>
+        <Field name="movieDescription" type="String" visibility="private"/>
+        <Field name="posterLink" type="String" visibility="private"/>
+        <Field name="trailerLink" type="String" visibility="private"/>
+        <Field name="country" type="String" visibility="private"/>
+        <Field name="year" type="String" visibility="private"/>
+        <Field name="length" type="String" visibility="private"/>
+        <Field name="categoryID" type="int" visibility="private"/>
+        <Field name="averageRating" type="double" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="movieID"/>
+          <Argument type="String" name="movieName"/>
+          <Argument type="String" name="movieDescription"/>
+          <Argument type="String" name="posterLink"/>
+          <Argument type="String" name="trailerLink"/>
+          <Argument type="String" name="country"/>
+          <Argument type="String" name="year"/>
+          <Argument type="String" name="length"/>
+          <Argument type="int" name="categoryID"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="int" name="movieID"/>
+          <Argument type="String" name="movieName"/>
+          <Argument type="String" name="movieDescription"/>
+          <Argument type="String" name="posterLink"/>
+          <Argument type="String" name="trailerLink"/>
+          <Argument type="String" name="country"/>
+          <Argument type="String" name="year"/>
+          <Argument type="String" name="length"/>
+          <Argument type="int" name="categoryID"/>
+          <Argument type="double" name="averageRating"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getAverageRating" returnType="double" visibility="public"/>
+        <Method name="setAverageRating" returnType="void" visibility="public">
+          <Argument type="double" name="averageRating"/>
+        </Method>
+        <Method name="getMovieID" returnType="int" visibility="public"/>
+        <Method name="setMovieID" returnType="void" visibility="public">
+          <Argument type="int" name="movieID"/>
+        </Method>
+        <Method name="getMovieName" returnType="String" visibility="public"/>
+        <Method name="setMovieName" returnType="void" visibility="public">
+          <Argument type="String" name="movieName"/>
+        </Method>
+        <Method name="getMovieDescription" returnType="String" visibility="public"/>
+        <Method name="setMovieDescription" returnType="void" visibility="public">
+          <Argument type="String" name="movieDescription"/>
+        </Method>
+        <Method name="getPosterLink" returnType="String" visibility="public"/>
+        <Method name="setPosterLink" returnType="void" visibility="public">
+          <Argument type="String" name="posterLink"/>
+        </Method>
+        <Method name="getTrailerLink" returnType="String" visibility="public"/>
+        <Method name="setTrailerLink" returnType="void" visibility="public">
+          <Argument type="String" name="trailerLink"/>
+        </Method>
+        <Method name="getCountry" returnType="String" visibility="public"/>
+        <Method name="setCountry" returnType="void" visibility="public">
+          <Argument type="String" name="country"/>
+        </Method>
+        <Method name="getYear" returnType="String" visibility="public"/>
+        <Method name="setYear" returnType="void" visibility="public">
+          <Argument type="String" name="year"/>
+        </Method>
+        <Method name="getLength" returnType="String" visibility="public"/>
+        <Method name="setLength" returnType="void" visibility="public">
+          <Argument type="String" name="length"/>
+        </Method>
+        <Method name="getCategoryID" returnType="int" visibility="public"/>
+        <Method name="setCategoryID" returnType="void" visibility="public">
+          <Argument type="int" name="categoryID"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="WatchLog" package="model" visibility="public" xPosition="2120.0" yPosition="20.0">
+      <Fields>
+        <Field name="movieID" type="int" visibility="private"/>
+        <Field name="memberID" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="movieID"/>
+          <Argument type="int" name="memberID"/>
+          <Argument type="int" name="logID"/>
+          <Argument type="String" name="time"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getMemberID" returnType="int" visibility="public"/>
+        <Method name="setMemberID" returnType="void" visibility="public">
+          <Argument type="int" name="memberID"/>
+        </Method>
+        <Method name="getMovieID" returnType="int" visibility="public"/>
+        <Method name="setMovieID" returnType="void" visibility="public">
+          <Argument type="int" name="movieID"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <IsRelation name="is" source="model.AdminLog" target="model.Log"/>
+    <IsRelation name="is" source="model.Admin" target="model.Member"/>
+    <IsRelation name="is" source="model.WatchLog" target="model.Log"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

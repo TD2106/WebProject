@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="java.security">
+  <ClassDiagramComponents>
+    <Class name="AES" package="security" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="secretKey" type="SecretKeySpec" visibility="private" isStatic="true"/>
+        <Field name="key" type="byte[]" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="setKey" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="myKey"/>
+        </Method>
+        <Method name="encrypt" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="strToEncrypt"/>
+          <Argument type="String" name="secret"/>
+        </Method>
+        <Method name="decrypt" returnType="String" visibility="public" isStatic="true">
+          <Argument type="String" name="strToDecrypt"/>
+          <Argument type="String" name="secret"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>

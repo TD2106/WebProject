@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="java.db">
+  <ClassDiagramComponents>
+    <Class name="DBConnection" package="db" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields>
+        <Field name="dbConnection" type="Connection" visibility="private" isStatic="true"/>
+        <Field name="connectionURL" type="String" visibility="private" isStatic="true"/>
+        <Field name="user" type="String" visibility="private" isStatic="true"/>
+        <Field name="password" type="String" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getConnection" returnType="Connection" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations/>
+</ClassDiagram>

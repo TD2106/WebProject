@@ -91,7 +91,6 @@ public class MemberController extends HttpServlet {
                     String password = request.getParameter("password");
                     String profilePictureLink = request.getParameter("profilePictureLink");
                     password = AES.encrypt(password, "bestmoviesite");
-                    String confirmCode = AES.encrypt(username, "bestmoviesite");
                     if(memberDAO.isMemberWithEmailExist(email)||memberDAO.isMemberWithUserNameExist(username)){
                         response.sendRedirect("user/register.jsp?result=exists");
                         return;
@@ -102,6 +101,7 @@ public class MemberController extends HttpServlet {
                         String port = context.getInitParameter("port");
                         String user = context.getInitParameter("user");
                         String pass = context.getInitParameter("pass");
+                        String confirmCode = AES.encrypt(username, "bestmoviesite");
                         String confirmLink = "http://localhost:8084/MovieStreamingProject/MemberController?action=confirm&code="+confirmCode;
                         String content = "Please click at the link below to verify your account\n"+confirmLink;
                         try {
